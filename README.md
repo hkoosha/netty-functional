@@ -22,7 +22,7 @@ on maven central.
                     // response is of type HttpResponse.
                     // this is equivalant to implementing channelRead(...)
                     if(response.status().code != 200) {
-                        log.error("did not get an OK reponse, closing {}, ctx.channel());
+                        log.error("did not get an OK reponse, closing {}", ctx.channel());
                         ctx.close();
                     }
                 }))
