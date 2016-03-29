@@ -1,4 +1,4 @@
-This library allows you to program netty handlers functionaly instead of
+This library allows you to program netty handlers functionally instead of
 implementing a full fledged channel handler or extending an adapter.
 
 
@@ -20,7 +20,7 @@ on maven central.
                 .addLast(new HttpResponseDecoder())
                 .addLast(Inbound.hook(HttpResponse.class, (ctx, response) -> {
                     // response is of type HttpResponse.
-                    // this is equivalant to implementing channelRead(...)
+                    // this is equivalent to implementing channelRead(...)
                     if(response.status().code != 200) {
                         log.error("did not get an OK reponse, closing {}", ctx.channel());
                         ctx.close();
@@ -28,7 +28,7 @@ on maven central.
                 }))
                 .addLast(Outbound.transform(String.class, (ctx, msg, p) -> {
                     // custom is of type String.
-                    // this is equivalant to implementing write(...), processing
+                    // this is equivalent to implementing write(...), processing
                     // message (transform it) and fire the result in outbound
                     // direction through pipeline.
                     return ctx.alloc()
@@ -46,9 +46,9 @@ on maven central.
 
 
 The code above is same as implementing three top level classes, or three verbose
-inner anonymouse classes.
+inner anonymous classes.
 
-Refactoring is easy, for instance Event.rmsink(...) can easyly be written as a
+Refactoring is easy, for instance Event.rmsink(...) can easily be written as a
 top level class by extending RemovedEventSink:
 
 ```java
@@ -64,10 +64,10 @@ class MyEventHandler extends RemovedEventSink<T>(matcher) {
 ```
 
 
-If later you decide you dont want to sink the event, or sink it conditionally,
+If later you decide you don't want to sink the event, or sink it conditionally,
 and never remove your handler, going one step back again you can change 
 `RemvoedEventSink` to `EventHook`, and implement the sink logic yourself. 
-(Altough you can sink conditionally already by extending `EventTransformer` and
+(Although you can sink conditionally already by extending `EventTransformer` and
 return null as a flag to sink).
 
 
