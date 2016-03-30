@@ -49,7 +49,7 @@ public enum  Outbound {
 
         return new RemovedOutboundHook<T>(matcher) {
             @Override
-            protected void write2(final ChannelHandlerContext ctx,
+            protected void write1(final ChannelHandlerContext ctx,
                                   final T msg,
                                   final ChannelPromise promise) throws Exception {
                 handler.accept(ctx, msg, promise);
@@ -62,7 +62,7 @@ public enum  Outbound {
 
         return new RemovedOutboundSink<T>(matcher) {
             @Override
-            protected void write2(final ChannelHandlerContext ctx,
+            protected void write1(final ChannelHandlerContext ctx,
                                   final T msg,
                                   final ChannelPromise promise) throws Exception {
                 handler.accept(ctx, msg, promise);
@@ -75,7 +75,7 @@ public enum  Outbound {
 
         return new RemovedOutboundTransformer<T>(matcher) {
             @Override
-            protected Object write2(final ChannelHandlerContext ctx,
+            protected Object write1(final ChannelHandlerContext ctx,
                                     final T msg,
                                     final ChannelPromise promise) throws Exception {
                 return handler.apply(ctx, msg, promise);

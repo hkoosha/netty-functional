@@ -1,11 +1,12 @@
 package cc.koosha.nettyfunctional.hook;
 
+import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class RemovedInboundHook<T> extends InboundHook<T> {
+public abstract class RemovedInboundHook<T> extends MatchedInboundHandler<T> {
 
     public RemovedInboundHook() {
     }
@@ -16,15 +17,22 @@ public abstract class RemovedInboundHook<T> extends InboundHook<T> {
     }
 
     @Override
-    protected void read1(final ChannelHandlerContext ctx,
+    protected final void unsupportedMsg(final ChannelHandlerContext ctx,
+                                        final Object msg) {
+
+        ctx.fireChannelRead(msg);
+    }
+
+    @Override
+    protected void read0(final ChannelHandlerContext ctx,
                          final T msg) throws Exception {
 
-        this.read2(ctx, msg);
+        this.read1(ctx, msg);
         ctx.fireChannelRead(msg);
         ctx.pipeline().remove(this);
     }
 
-    protected abstract void read2(ChannelHandlerContext ctx, T msg)
+    protected abstract void read1(ChannelHandlerContext ctx, T msg)
             throws Exception;
 
 }

@@ -43,7 +43,7 @@ public enum Event {
 
         return new RemovedEventHook<T>(matcher) {
             @Override
-            protected void event2(final ChannelHandlerContext ctx,
+            protected void event1(final ChannelHandlerContext ctx,
                                   final T event) throws Exception {
                 handler.accept(ctx, event);
             }
@@ -55,7 +55,7 @@ public enum Event {
 
         return new RemovedEventSink<T>(matcher) {
             @Override
-            protected void event2(final ChannelHandlerContext ctx,
+            protected void event1(final ChannelHandlerContext ctx,
                                   final T event) throws Exception {
                 handler.accept(ctx, event);
             }
@@ -67,7 +67,7 @@ public enum Event {
 
         return new RemovedEventTransformer<T>(matcher) {
             @Override
-            protected Object event2(final ChannelHandlerContext ctx,
+            protected Object event1(final ChannelHandlerContext ctx,
                                     final T event) throws Exception {
                 return handler.apply(ctx, event);
             }

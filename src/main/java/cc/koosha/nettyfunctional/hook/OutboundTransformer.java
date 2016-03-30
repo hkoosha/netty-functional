@@ -16,7 +16,6 @@ public abstract class OutboundTransformer<T> extends MatchedOutboundHandler<T> {
         super(matcher);
     }
 
-
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg,

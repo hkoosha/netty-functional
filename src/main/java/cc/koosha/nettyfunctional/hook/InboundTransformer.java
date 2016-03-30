@@ -18,7 +18,7 @@ public abstract class InboundTransformer<T> extends MatchedInboundHandler<T> {
 
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
-                                  final Object msg) {
+                                        final Object msg) {
 
         ctx.fireChannelRead(msg);
     }

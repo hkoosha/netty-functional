@@ -44,7 +44,7 @@ public enum Inbound {
 
         return new RemovedInboundHook<T>(matcher) {
             @Override
-            protected void read2(final ChannelHandlerContext ctx,
+            protected void read1(final ChannelHandlerContext ctx,
                                   final T read) throws Exception {
                 handler.accept(ctx, read);
             }
@@ -56,7 +56,7 @@ public enum Inbound {
 
         return new RemovedInboundSink<T>(matcher) {
             @Override
-            protected void read2(final ChannelHandlerContext ctx,
+            protected void read1(final ChannelHandlerContext ctx,
                                   final T read) throws Exception {
                 handler.accept(ctx, read);
             }
@@ -68,7 +68,7 @@ public enum Inbound {
 
         return new RemovedInboundTransformer<T>(matcher) {
             @Override
-            protected Object read2(final ChannelHandlerContext ctx,
+            protected Object read1(final ChannelHandlerContext ctx,
                                     final T read) throws Exception {
                 return handler.apply(ctx, read);
             }

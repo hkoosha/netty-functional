@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class EventHook <T> extends MatchedEventHandler<T> {
+public abstract class EventHook<T> extends MatchedEventHandler<T> {
 
     public EventHook() {
     }
@@ -28,6 +28,7 @@ public abstract class EventHook <T> extends MatchedEventHandler<T> {
                                 final T event) throws Exception {
 
         this.event1(ctx, event);
+        ctx.fireUserEventTriggered(event);
     }
 
     protected abstract void event1(ChannelHandlerContext ctx, T event)

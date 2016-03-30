@@ -1,11 +1,12 @@
 package cc.koosha.nettyfunctional.hook;
 
+import cc.koosha.nettyfunctional.matched.MatchedEventHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class RemovedEventTransformer<T> extends EventHook<T> {
+public abstract class RemovedEventTransformer<T> extends MatchedEventHandler<T> {
 
     public RemovedEventTransformer() {
     }
@@ -16,10 +17,17 @@ public abstract class RemovedEventTransformer<T> extends EventHook<T> {
     }
 
     @Override
-    protected final void event1(final ChannelHandlerContext ctx,
+    protected final void unsupportedEvent(final ChannelHandlerContext ctx,
+                                          final Object event) {
+
+        ctx.fireUserEventTriggered(event);
+    }
+
+    @Override
+    protected final void event0(final ChannelHandlerContext ctx,
                                 final T event) throws Exception {
 
-        final Object result = this.event2(ctx, event);
+        final Object result = this.event1(ctx, event);
 
         if(result != null) {
             ctx.fireUserEventTriggered(result);
@@ -27,7 +35,7 @@ public abstract class RemovedEventTransformer<T> extends EventHook<T> {
         }
     }
 
-    protected abstract Object event2(ChannelHandlerContext ctx, T event)
+    protected abstract Object event1(ChannelHandlerContext ctx, T event)
             throws Exception;
 
 }
