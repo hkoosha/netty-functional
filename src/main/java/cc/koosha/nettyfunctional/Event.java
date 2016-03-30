@@ -77,31 +77,31 @@ public enum Event {
 
     // ________________________________________________________________________
 
-    public static <T> ChannelHandler hook(@NonNull final Class<?> matcher,
+    public static <T> ChannelHandler hook(@NonNull final Class<? extends T> matcher,
                                           @NonNull final Read<T> handler) {
 
         return hook(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler transform(@NonNull final Class<?> matcher,
+    public static <T> ChannelHandler transform(@NonNull final Class<? extends T> matcher,
                                                @NonNull final ReadTransformer<T> handler) {
 
         return transform(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmHook(@NonNull final Class<?> matcher,
+    public static <T> ChannelHandler rmHook(@NonNull final Class<? extends T> matcher,
                                             @NonNull final Read<T> handler) {
 
         return rmHook(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmSink(@NonNull final Class<?> matcher,
+    public static <T> ChannelHandler rmSink(@NonNull final Class<? extends T> matcher,
                                             @NonNull final Read<T> handler) {
 
         return rmSink(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmTransform(@NonNull final Class<?> matcher,
+    public static <T> ChannelHandler rmTransform(@NonNull final Class<? extends T> matcher,
                                                  @NonNull final ReadTransformer<T> handler) {
 
         return rmTransform(Matcher.classMatcher(matcher), handler);
