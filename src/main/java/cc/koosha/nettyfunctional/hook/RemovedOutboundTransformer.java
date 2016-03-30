@@ -24,7 +24,7 @@ public abstract class RemovedOutboundTransformer<T> extends OutboundHook<T> {
         final Object result = this.write2(ctx, msg, promise);
 
         if(result != null) {
-            ctx.fireChannelRead(result);
+            ctx.write(result, promise);
             ctx.pipeline().remove(this);
         }
     }

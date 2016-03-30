@@ -9,7 +9,6 @@ import lombok.NonNull;
 
 
 public enum NettyFunc {
-
     ;
 
     public static ChannelHandler initer(@NonNull final ConsumerC<Channel> accept) {
