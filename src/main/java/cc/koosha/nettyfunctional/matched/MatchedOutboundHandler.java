@@ -21,9 +21,9 @@ public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAd
         this.matcher = this.typeMatcher::match;
     }
 
-    protected MatchedOutboundHandler(@NonNull final Class<?> clazz) {
+    protected MatchedOutboundHandler(@NonNull final Class<?> type) {
 
-        this(object -> object.getClass().isAssignableFrom(clazz));
+        this(Matcher.classMatcher(type));
     }
 
     protected MatchedOutboundHandler(@NonNull final Matcher matcher) {

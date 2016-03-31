@@ -22,7 +22,7 @@ public abstract class MatchedEventHandler<T> extends ChannelDuplexHandler {
 
     public MatchedEventHandler(@NonNull final Class<?> type) {
 
-        this(object -> object.getClass().isAssignableFrom(type));
+        this(Matcher.classMatcher(type));
     }
 
     public MatchedEventHandler(@NonNull final Matcher matcher) {

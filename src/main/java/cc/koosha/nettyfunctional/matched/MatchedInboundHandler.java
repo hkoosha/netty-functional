@@ -20,9 +20,9 @@ public abstract class MatchedInboundHandler<T> extends ChannelInboundHandlerAdap
         this.matcher = this.typeMatcher::match;
     }
 
-    protected MatchedInboundHandler(@NonNull final Class<?> clazz) {
+    protected MatchedInboundHandler(@NonNull final Class<?> type) {
 
-        this(object -> object.getClass().isAssignableFrom(clazz));
+        this(Matcher.classMatcher(type));
     }
 
     protected MatchedInboundHandler(@NonNull final Matcher matcher) {
