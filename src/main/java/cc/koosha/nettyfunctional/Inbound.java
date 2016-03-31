@@ -1,6 +1,7 @@
 package cc.koosha.nettyfunctional;
 
 import cc.koosha.nettyfunctional.hook.*;
+import cc.koosha.nettyfunctional.nettyfunctions.IfRead;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.nettyfunctions.Read;
 import cc.koosha.nettyfunctional.nettyfunctions.ReadTransformer;
@@ -57,7 +58,7 @@ public enum Inbound {
         return new RemovedInboundSink<T>(matcher) {
             @Override
             protected void read1(final ChannelHandlerContext ctx,
-                                  final T read) throws Exception {
+                                 final T read) throws Exception {
                 handler.accept(ctx, read);
             }
         };
@@ -69,8 +70,21 @@ public enum Inbound {
         return new RemovedInboundTransformer<T>(matcher) {
             @Override
             protected Object read1(final ChannelHandlerContext ctx,
-                                    final T read) throws Exception {
+                                   final T read) throws Exception {
                 return handler.apply(ctx, read);
+            }
+        };
+    }
+
+    public static <T> ChannelHandler rmSinkIf(@NonNull final Matcher matcher,
+                                              @NonNull final IfRead<T> handler) {
+
+        return new RemovedIfInboundSink<T>(matcher) {
+            @Override
+            protected boolean read1(final ChannelHandlerContext ctx,
+                                    final T msg) throws Exception {
+
+                return handler.apply(ctx, msg);
             }
         };
     }
@@ -106,6 +120,12 @@ public enum Inbound {
                                                  @NonNull final ReadTransformer<T> handler) {
 
         return rmTransform(Matcher.classMatcher(matcher), handler);
+    }
+
+    public static <T> ChannelHandler rmSinkIf(@NonNull final Class<?> matcher,
+                                              @NonNull final IfRead<T> handler) {
+
+        return rmSinkIf(Matcher.classMatcher(matcher), handler);
     }
 
 }

@@ -7,17 +7,19 @@ import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
-public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler<T> {
+public abstract class RemovedIfInboundSink<T> extends MatchedInboundHandler<T> {
 
-    protected RemovedInboundTransformer() {
+    protected RemovedIfInboundSink() {
+
+        super();
     }
 
-    protected RemovedInboundTransformer(@NonNull final Class<?> clazz) {
+    protected RemovedIfInboundSink(@NonNull final Class<?> type) {
 
-        super(clazz);
+        super(type);
     }
 
-    protected RemovedInboundTransformer(@NonNull final Matcher matcher) {
+    protected RemovedIfInboundSink(@NonNull final Matcher matcher) {
 
         super(matcher);
     }
@@ -34,7 +36,7 @@ public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler
     protected final void read0(final ChannelHandlerContext ctx,
                                final T msg) throws Exception {
 
-        Object result;
+        boolean result;
 
         try {
             result = this.read1(ctx, msg);
@@ -43,13 +45,11 @@ public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler
             ReferenceCountUtil.release(msg);
         }
 
-        if(result != null) {
-            ctx.fireChannelRead(result);
+        if(result)
             ctx.pipeline().remove(this);
-        }
     }
 
-    protected abstract Object read1(ChannelHandlerContext ctx, T msg)
+    protected abstract boolean read1(ChannelHandlerContext ctx, T msg)
             throws Exception;
 
 }

@@ -8,17 +8,19 @@ import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
-public abstract class RemovedOutboundSink<T> extends MatchedOutboundHandler<T> {
+public abstract class RemovedIfOutboundSInk<T> extends MatchedOutboundHandler<T> {
 
-    protected RemovedOutboundSink() {
+    protected RemovedIfOutboundSInk() {
+
+        super();
     }
 
-    protected RemovedOutboundSink(@NonNull final Class<?> clazz) {
+    protected RemovedIfOutboundSInk(@NonNull final Class<?> type) {
 
-        super(clazz);
+        super(type);
     }
 
-    protected RemovedOutboundSink(@NonNull final Matcher matcher) {
+    protected RemovedIfOutboundSInk(@NonNull final Matcher matcher) {
 
         super(matcher);
     }
@@ -38,17 +40,20 @@ public abstract class RemovedOutboundSink<T> extends MatchedOutboundHandler<T> {
                                 final T msg,
                                 final ChannelPromise promise) throws Exception {
 
+        boolean result;
+
         try {
-            this.write1(ctx, msg, promise);
+            result = this.write1(ctx, msg, promise);
         }
         finally {
             ReferenceCountUtil.release(msg);
         }
 
-        ctx.pipeline().remove(this);
+        if (result)
+            ctx.pipeline().remove(this);
     }
 
-    protected abstract void write1(ChannelHandlerContext ctx, T msg, ChannelPromise promise)
+    protected abstract boolean write1(ChannelHandlerContext ctx, T msg, ChannelPromise promise)
             throws Exception;
 
 }

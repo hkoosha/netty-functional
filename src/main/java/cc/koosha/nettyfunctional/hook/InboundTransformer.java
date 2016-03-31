@@ -3,6 +3,7 @@ package cc.koosha.nettyfunctional.hook;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
@@ -33,7 +34,14 @@ public abstract class InboundTransformer<T> extends MatchedInboundHandler<T> {
     protected final void read0(final ChannelHandlerContext ctx,
                                final T msg) throws Exception {
 
-        final Object result = this.read1(ctx, msg);
+        Object result;
+
+        try {
+            result = this.read1(ctx, msg);
+        }
+        finally {
+            ReferenceCountUtil.release(msg);
+        }
 
         if(result != null)
             ctx.fireChannelRead(result);

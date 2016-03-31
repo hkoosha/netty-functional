@@ -1,6 +1,7 @@
 package cc.koosha.nettyfunctional;
 
 import cc.koosha.nettyfunctional.hook.*;
+import cc.koosha.nettyfunctional.nettyfunctions.IfRead;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.nettyfunctions.Read;
 import cc.koosha.nettyfunctional.nettyfunctions.ReadTransformer;
@@ -74,6 +75,18 @@ public enum Event {
         };
     }
 
+    public static <T> ChannelHandler rmSinkIf(@NonNull final Matcher matcher,
+                                              @NonNull final IfRead<T> handler) {
+
+        return new RemovedIfEventSink<T>(matcher) {
+            @Override
+            protected boolean event1(final ChannelHandlerContext ctx,
+                                     final T event) throws Exception {
+
+                return handler.apply(ctx, event);
+            }
+        };
+    }
 
     // ________________________________________________________________________
 
@@ -105,6 +118,12 @@ public enum Event {
                                                  @NonNull final ReadTransformer<T> handler) {
 
         return rmTransform(Matcher.classMatcher(matcher), handler);
+    }
+
+    public static <T> ChannelHandler rmSinkIf(@NonNull final Class<?> matcher,
+                                              @NonNull final IfRead<T> handler) {
+
+        return rmSinkIf(Matcher.classMatcher(matcher), handler);
     }
 
 }

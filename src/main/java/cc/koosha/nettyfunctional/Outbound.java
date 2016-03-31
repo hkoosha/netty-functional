@@ -1,6 +1,7 @@
 package cc.koosha.nettyfunctional;
 
 import cc.koosha.nettyfunctional.hook.*;
+import cc.koosha.nettyfunctional.nettyfunctions.IfWrite;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.nettyfunctions.Write;
 import cc.koosha.nettyfunctional.nettyfunctions.WriteTransformer;
@@ -83,6 +84,19 @@ public enum  Outbound {
         };
     }
 
+    public static <T> ChannelHandler rmSinkIf(@NonNull final Matcher matcher,
+                                              @NonNull final IfWrite<T> handler) {
+
+        return new RemovedIfOutboundSInk<T>(matcher) {
+            @Override
+            protected boolean write1(final ChannelHandlerContext ctx,
+                                     final T msg,
+                                     final ChannelPromise promise) throws Exception {
+
+                return handler.apply(ctx, msg, promise);
+            }
+        };
+    }
 
     // ________________________________________________________________________
 
@@ -114,6 +128,12 @@ public enum  Outbound {
                                                  @NonNull final WriteTransformer<T> handler) {
 
         return rmTransform(Matcher.classMatcher(matcher), handler);
+    }
+
+    public static <T> ChannelHandler rmSinkIf(@NonNull final Class<?> matcher,
+                                              @NonNull final IfWrite<T> handler) {
+
+        return rmSinkIf(Matcher.classMatcher(matcher), handler);
     }
 
 }

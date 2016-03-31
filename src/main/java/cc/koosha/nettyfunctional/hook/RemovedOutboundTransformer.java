@@ -4,6 +4,7 @@ import cc.koosha.nettyfunctional.matched.MatchedOutboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
+import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
@@ -37,12 +38,20 @@ public abstract class RemovedOutboundTransformer<T> extends MatchedOutboundHandl
                                 final T msg,
                                 final ChannelPromise promise) throws Exception {
 
-        final Object result = this.write1(ctx, msg, promise);
+        Object result;
+
+        try {
+            result = this.write1(ctx, msg, promise);
+        }
+        finally {
+            ReferenceCountUtil.release(msg);
+        }
 
         if(result != null) {
             ctx.write(result, promise);
             ctx.pipeline().remove(this);
         }
+
     }
 
     protected abstract Object write1(ChannelHandlerContext ctx, T msg, ChannelPromise promise)
