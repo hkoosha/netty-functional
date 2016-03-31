@@ -6,15 +6,21 @@ import io.netty.handler.codec.UnsupportedMessageTypeException;
 import lombok.NonNull;
 
 
-public abstract class ForceMatchedEventHandler extends MatchedEventHandler {
+public abstract class ForceMatchedEventHandler<T> extends MatchedEventHandler<T> {
 
-    public ForceMatchedEventHandler() {
+    protected ForceMatchedEventHandler() {
     }
 
-    public ForceMatchedEventHandler(@NonNull final Matcher matcher) {
+    protected ForceMatchedEventHandler(@NonNull final Class<?> type) {
+
+        super(type);
+    }
+
+    protected ForceMatchedEventHandler(@NonNull final Matcher matcher) {
 
         super(matcher);
     }
+
 
     @Override
     protected final void unsupportedEvent(@NonNull final ChannelHandlerContext ctx,

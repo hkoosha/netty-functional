@@ -20,11 +20,17 @@ public abstract class MatchedEventHandler<T> extends ChannelDuplexHandler {
         this.matcher = this.typeMatcher::match;
     }
 
+    public MatchedEventHandler(@NonNull final Class<?> type) {
+
+        this(object -> object.getClass().isAssignableFrom(type));
+    }
+
     public MatchedEventHandler(@NonNull final Matcher matcher) {
 
         this.typeMatcher = null;
         this.matcher = matcher;
     }
+
 
     @SuppressWarnings("unchecked")
     @Override

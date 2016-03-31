@@ -8,12 +8,18 @@ import lombok.NonNull;
 
 public abstract class RemovedInboundSink<T> extends MatchedInboundHandler<T> {
 
-    public RemovedInboundSink() {
+    protected RemovedInboundSink() {
     }
 
-    public RemovedInboundSink(@NonNull final Matcher matcher) {
+    protected RemovedInboundSink(@NonNull final Class<?> clazz) {
+
+        super(clazz);
+    }
+
+    protected RemovedInboundSink(@NonNull final Matcher matcher) {
         super(matcher);
     }
+
 
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,

@@ -9,12 +9,18 @@ import lombok.NonNull;
 
 public abstract class OutboundHook<T> extends MatchedOutboundHandler<T> {
 
-    public OutboundHook() {
+    protected OutboundHook() {
     }
 
-    public OutboundHook(@NonNull final Matcher matcher) {
+    protected OutboundHook(@NonNull final Class<?> clazz) {
+
+        super(clazz);
+    }
+
+    protected OutboundHook(@NonNull final Matcher matcher) {
         super(matcher);
     }
+
 
     @Override
     protected void unsupportedMsg(@NonNull final ChannelHandlerContext ctx,

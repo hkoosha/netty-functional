@@ -8,13 +8,19 @@ import lombok.NonNull;
 
 public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler<T> {
 
-    public RemovedInboundTransformer() {
+    protected RemovedInboundTransformer() {
     }
 
-    public RemovedInboundTransformer(@NonNull Matcher matcher) {
+    protected RemovedInboundTransformer(@NonNull final Class<?> clazz) {
+
+        super(clazz);
+    }
+
+    protected RemovedInboundTransformer(@NonNull final Matcher matcher) {
 
         super(matcher);
     }
+
 
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,

@@ -12,10 +12,16 @@ public abstract class EventIfHook<T> extends EventHook<T> {
     public EventIfHook() {
     }
 
+    public EventIfHook(@NonNull final Class<?> type) {
+
+        super(type);
+    }
+
     public EventIfHook(@NonNull final Matcher matcher) {
 
         super(matcher);
     }
+
 
     @Override
     protected final void event1(final ChannelHandlerContext ctx,

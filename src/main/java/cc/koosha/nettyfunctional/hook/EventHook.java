@@ -8,13 +8,19 @@ import lombok.NonNull;
 
 public abstract class EventHook<T> extends MatchedEventHandler<T> {
 
-    public EventHook() {
+    protected EventHook() {
     }
 
-    public EventHook(@NonNull final Matcher matcher) {
+    protected EventHook(@NonNull final Class<?> type) {
+
+        super(type);
+    }
+
+    protected EventHook(@NonNull final Matcher matcher) {
 
         super(matcher);
     }
+
 
     @Override
     protected final void unsupportedEvent(final ChannelHandlerContext ctx,

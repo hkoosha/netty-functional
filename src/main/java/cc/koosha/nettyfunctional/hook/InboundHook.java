@@ -10,13 +10,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class InboundHook<T> extends MatchedInboundHandler<T> {
 
-    public InboundHook() {
+    protected InboundHook() {
     }
 
-    public InboundHook(@NonNull Matcher matcher) {
+    protected InboundHook(@NonNull final Class<?> clazz) {
+
+        super(clazz);
+    }
+
+    protected InboundHook(@NonNull final Matcher matcher) {
 
         super(matcher);
     }
+
 
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,

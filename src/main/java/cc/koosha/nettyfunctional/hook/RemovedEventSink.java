@@ -8,12 +8,19 @@ import lombok.NonNull;
 
 public abstract class RemovedEventSink<T> extends MatchedEventHandler<T> {
 
-    public RemovedEventSink() {
+    protected RemovedEventSink() {
     }
 
-    public RemovedEventSink(@NonNull final Matcher matcher) {
+    protected RemovedEventSink(@NonNull final Class<?> type) {
+
+        super(type);
+    }
+
+    protected RemovedEventSink(@NonNull final Matcher matcher) {
+
         super(matcher);
     }
+
 
     @Override
     protected final void unsupportedEvent(final ChannelHandlerContext ctx,

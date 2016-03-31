@@ -9,12 +9,19 @@ import lombok.NonNull;
 
 public abstract class OutboundTransformer<T> extends MatchedOutboundHandler<T> {
 
-    public OutboundTransformer() {
+    protected OutboundTransformer() {
     }
 
-    public OutboundTransformer(@NonNull final Matcher matcher) {
+    protected OutboundTransformer(@NonNull final Class<?> clazz) {
+
+        super(clazz);
+    }
+
+    protected OutboundTransformer(@NonNull final Matcher matcher) {
+
         super(matcher);
     }
+
 
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
