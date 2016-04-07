@@ -130,7 +130,7 @@ public enum  Outbound {
         return rmTransform(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmSinkIf(@NonNull final Class<?> matcher,
+    public static <T> ChannelHandler rmSinkIf(@NonNull final Class<? extends T> matcher,
                                               @NonNull final IfWrite<T> handler) {
 
         return rmSinkIf(Matcher.classMatcher(matcher), handler);
