@@ -41,15 +41,9 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
 
 dependencies {
     compile 'org.projectlombok:lombok:1.16.8'
-    compile 'org.slf4j:slf4j-api:1.7.19'
-    compile 'ch.qos.logback:logback-classic:1.1.6'
 
     compile files('libs/netty.jar')
 
@@ -57,3 +51,16 @@ dependencies {
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
 }
 
+
+task allJar(type: Jar, dependsOn: jar) {
+    baseName = 'allJar'
+    from rootProject.configurations.archives.artifacts.files.collect {
+        zipTree(it)
+    }
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives allJar
+}

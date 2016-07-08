@@ -4,10 +4,8 @@ import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 
 
-@Slf4j
 public abstract class InboundHook<T> extends MatchedInboundHandler<T> {
 
     protected InboundHook() {
