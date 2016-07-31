@@ -4,11 +4,9 @@ of implementing a full fledged channel handler or extending an adapter.
 
 ### How to Build
 
-This library is written for netty version 4.
+In the project directory run:
 
-Put the jar of netty as netty.jar in libs directory, or fix the build.gradle 
-file to point to correct version of netty on maven central. For me, netty.jar
-points to latest snapshot of netty cloned and built from github.
+`./gradlew clean build`
 
 
 ### Example
