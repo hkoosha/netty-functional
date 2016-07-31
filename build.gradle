@@ -43,7 +43,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 
 dependencies {
-    compile 'org.projectlombok:lombok:1.16.8'
+    compile 'org.projectlombok:lombok:1.16.10'
 
     compile files('libs/netty.jar')
 
@@ -52,9 +52,9 @@ dependencies {
 }
 
 
-task allJar(type: Jar, dependsOn: jar) {
+task allJar(type: Jar) {
     baseName = 'allJar'
-    from rootProject.configurations.archives.artifacts.files.collect {
+    from configurations.archives.artifacts.files.collect {
         zipTree(it)
     }
 }
@@ -62,5 +62,6 @@ task allJar(type: Jar, dependsOn: jar) {
 artifacts {
     archives sourcesJar
     archives javadocJar
-    archives allJar
+//    archives allJar
 }
+
