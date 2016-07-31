@@ -1,18 +1,17 @@
-This library allows you to program netty handlers functionally instead of
-implementing a full fledged channel handler or extending an adapter.
+This library allows you to create netty handlers in a functional manne instead 
+of implementing a full fledged channel handler or extending an adapter.
 
 
 ### How to Build
 
-Put the jar of netty (netty 4.1.0 snapshot was tested) as netty.jar in libs
-directory, or fix the build.gradle file to point to correct version of netty
-on maven central.
+Put the jar of netty as netty.jar in libs directory, or fix the build.gradle 
+file to point to correct version of netty on maven central. For me, netty.jar
+points to latest snapshot of netty cloned and built from github.
 
 
 ### Example
 
 ```java
-
 
      channel -> channel
                 .pipeline()
@@ -81,7 +80,6 @@ again.
 
 ### Warning:
 
-Because of what was said above, this code is not tested. not even run once!
-I just know it compiles, and right now I'm so depressed that I don't want to test
-it anyway. But it should work. A compiled version (of the project that was removed)
-is working already.
+Because of what was said above, this code is in pre-alpha stage.
+I just know it compiles, and a handful of stuff works without a problem in my
+own toy projects.
