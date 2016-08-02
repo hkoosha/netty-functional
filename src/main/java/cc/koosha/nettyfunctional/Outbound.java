@@ -16,8 +16,8 @@ import lombok.RequiredArgsConstructor;
 public enum  Outbound {
     ;
 
-    public static <T> ChannelHandler hook(@NonNull final Matcher matcher,
-                                          @NonNull final Write<T> handler) {
+    public static <T> ChannelHandler oHook(@NonNull final Matcher matcher,
+                                           @NonNull final Write<T> handler) {
 
         return new OutboundHook<T>(matcher) {
             @Override
@@ -30,8 +30,8 @@ public enum  Outbound {
         };
     }
 
-    public static <T> ChannelHandler transform(@NonNull final Matcher matcher,
-                                               @NonNull final WriteTransformer<T> handler) {
+    public static <T> ChannelHandler oTransform(@NonNull final Matcher matcher,
+                                                @NonNull final WriteTransformer<T> handler) {
 
         return new OutboundTransformer<T>(matcher) {
             @Override
@@ -45,8 +45,8 @@ public enum  Outbound {
 
     }
 
-    public static <T> ChannelHandler rmHook(@NonNull final Matcher matcher,
-                                            @NonNull final Write<T> handler) {
+    public static <T> ChannelHandler oRmHook(@NonNull final Matcher matcher,
+                                             @NonNull final Write<T> handler) {
 
         return new RemovedOutboundHook<T>(matcher) {
             @Override
@@ -58,8 +58,8 @@ public enum  Outbound {
         };
     }
 
-    public static <T> ChannelHandler rmSink(@NonNull final Matcher matcher,
-                                            @NonNull final Write<T> handler) {
+    public static <T> ChannelHandler oRmSink(@NonNull final Matcher matcher,
+                                             @NonNull final Write<T> handler) {
 
         return new RemovedOutboundSink<T>(matcher) {
             @Override
@@ -71,8 +71,8 @@ public enum  Outbound {
         };
     }
 
-    public static <T> ChannelHandler rmTransform(@NonNull final Matcher matcher,
-                                                 @NonNull final WriteTransformer<T> handler) {
+    public static <T> ChannelHandler oRmTransform(@NonNull final Matcher matcher,
+                                                  @NonNull final WriteTransformer<T> handler) {
 
         return new RemovedOutboundTransformer<T>(matcher) {
             @Override
@@ -84,8 +84,8 @@ public enum  Outbound {
         };
     }
 
-    public static <T> ChannelHandler rmSinkIf(@NonNull final Matcher matcher,
-                                              @NonNull final IfWrite<T> handler) {
+    public static <T> ChannelHandler oRmSinkIf(@NonNull final Matcher matcher,
+                                               @NonNull final IfWrite<T> handler) {
 
         return new RemovedIfOutboundSInk<T>(matcher) {
             @Override
@@ -100,40 +100,40 @@ public enum  Outbound {
 
     // ________________________________________________________________________
 
-    public static <T> ChannelHandler hook(@NonNull final Class<? extends T> matcher,
-                                          @NonNull final Write<T> handler) {
+    public static <T> ChannelHandler oHook(@NonNull final Class<? extends T> matcher,
+                                           @NonNull final Write<T> handler) {
 
-        return hook(Matcher.classMatcher(matcher), handler);
+        return oHook(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler transform(@NonNull final Class<? extends T> matcher,
-                                               @NonNull final WriteTransformer<T> handler) {
+    public static <T> ChannelHandler oTransform(@NonNull final Class<? extends T> matcher,
+                                                @NonNull final WriteTransformer<T> handler) {
 
-        return transform(Matcher.classMatcher(matcher), handler);
+        return oTransform(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmHook(@NonNull final Class<? extends T> matcher,
-                                            @NonNull final Write<T> handler) {
+    public static <T> ChannelHandler oRmHook(@NonNull final Class<? extends T> matcher,
+                                             @NonNull final Write<T> handler) {
 
-        return rmHook(Matcher.classMatcher(matcher), handler);
+        return oRmHook(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmSink(@NonNull final Class<? extends T> matcher,
-                                            @NonNull final Write<T> handler) {
+    public static <T> ChannelHandler oRmSink(@NonNull final Class<? extends T> matcher,
+                                             @NonNull final Write<T> handler) {
 
-        return rmSink(Matcher.classMatcher(matcher), handler);
+        return oRmSink(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmTransform(@NonNull final Class<? extends T> matcher,
-                                                 @NonNull final WriteTransformer<T> handler) {
+    public static <T> ChannelHandler oRmTransform(@NonNull final Class<? extends T> matcher,
+                                                  @NonNull final WriteTransformer<T> handler) {
 
-        return rmTransform(Matcher.classMatcher(matcher), handler);
+        return oRmTransform(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmSinkIf(@NonNull final Class<? extends T> matcher,
-                                              @NonNull final IfWrite<T> handler) {
+    public static <T> ChannelHandler oRmSinkIf(@NonNull final Class<? extends T> matcher,
+                                               @NonNull final IfWrite<T> handler) {
 
-        return rmSinkIf(Matcher.classMatcher(matcher), handler);
+        return oRmSinkIf(Matcher.classMatcher(matcher), handler);
     }
 
 }

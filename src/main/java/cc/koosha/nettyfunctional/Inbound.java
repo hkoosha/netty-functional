@@ -14,8 +14,8 @@ import lombok.NonNull;
 public enum Inbound {
     ;
 
-    public static <T> ChannelHandler hook(@NonNull final Matcher matcher,
-                                          @NonNull final Read<T> handler) {
+    public static <T> ChannelHandler iHook(@NonNull final Matcher matcher,
+                                           @NonNull final Read<T> handler) {
 
         return new InboundHook<T>(matcher) {
             @Override
@@ -27,8 +27,8 @@ public enum Inbound {
         };
     }
 
-    public static <T> ChannelHandler transform(@NonNull final Matcher matcher,
-                                               @NonNull final ReadTransformer<T> handler) {
+    public static <T> ChannelHandler iTransform(@NonNull final Matcher matcher,
+                                                @NonNull final ReadTransformer<T> handler) {
 
         return new InboundTransformer<T>(matcher) {
             @Override
@@ -40,8 +40,8 @@ public enum Inbound {
         };
     }
 
-    public static <T> ChannelHandler rmHook(@NonNull final Matcher matcher,
-                                            @NonNull final Read<T> handler) {
+    public static <T> ChannelHandler iRmHook(@NonNull final Matcher matcher,
+                                             @NonNull final Read<T> handler) {
 
         return new RemovedInboundHook<T>(matcher) {
             @Override
@@ -52,8 +52,8 @@ public enum Inbound {
         };
     }
 
-    public static <T> ChannelHandler rmSink(@NonNull final Matcher matcher,
-                                            @NonNull final Read<T> handler) {
+    public static <T> ChannelHandler iRmSink(@NonNull final Matcher matcher,
+                                             @NonNull final Read<T> handler) {
 
         return new RemovedInboundSink<T>(matcher) {
             @Override
@@ -64,8 +64,8 @@ public enum Inbound {
         };
     }
 
-    public static <T> ChannelHandler rmTransform(@NonNull final Matcher matcher,
-                                                 @NonNull final ReadTransformer<T> handler) {
+    public static <T> ChannelHandler iRmTransform(@NonNull final Matcher matcher,
+                                                  @NonNull final ReadTransformer<T> handler) {
 
         return new RemovedInboundTransformer<T>(matcher) {
             @Override
@@ -76,8 +76,8 @@ public enum Inbound {
         };
     }
 
-    public static <T> ChannelHandler rmSinkIf(@NonNull final Matcher matcher,
-                                              @NonNull final IfRead<T> handler) {
+    public static <T> ChannelHandler iRmSinkIf(@NonNull final Matcher matcher,
+                                               @NonNull final IfRead<T> handler) {
 
         return new RemovedIfInboundSink<T>(matcher) {
             @Override
@@ -92,40 +92,40 @@ public enum Inbound {
 
     // ________________________________________________________________________
 
-    public static <T> ChannelHandler hook(@NonNull final Class<? extends T> matcher,
-                                          @NonNull final Read<T> handler) {
+    public static <T> ChannelHandler iHook(@NonNull final Class<? extends T> matcher,
+                                           @NonNull final Read<T> handler) {
 
-        return hook(Matcher.classMatcher(matcher), handler);
+        return iHook(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler transform(@NonNull final Class<? extends T> matcher,
-                                               @NonNull final ReadTransformer<T> handler) {
+    public static <T> ChannelHandler iTransform(@NonNull final Class<? extends T> matcher,
+                                                @NonNull final ReadTransformer<T> handler) {
 
-        return transform(Matcher.classMatcher(matcher), handler);
+        return iTransform(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmHook(@NonNull final Class<? extends T> matcher,
-                                            @NonNull final Read<T> handler) {
+    public static <T> ChannelHandler iRmHook(@NonNull final Class<? extends T> matcher,
+                                             @NonNull final Read<T> handler) {
 
-        return rmHook(Matcher.classMatcher(matcher), handler);
+        return iRmHook(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmSink(@NonNull final Class<? extends T> matcher,
-                                            @NonNull final Read<T> handler) {
+    public static <T> ChannelHandler iRmSink(@NonNull final Class<? extends T> matcher,
+                                             @NonNull final Read<T> handler) {
 
-        return rmSink(Matcher.classMatcher(matcher), handler);
+        return iRmSink(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmTransform(@NonNull final Class<? extends T> matcher,
-                                                 @NonNull final ReadTransformer<T> handler) {
+    public static <T> ChannelHandler iRmTransform(@NonNull final Class<? extends T> matcher,
+                                                  @NonNull final ReadTransformer<T> handler) {
 
-        return rmTransform(Matcher.classMatcher(matcher), handler);
+        return iRmTransform(Matcher.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler rmSinkIf(@NonNull final Class<? extends T> matcher,
-                                              @NonNull final IfRead<T> handler) {
+    public static <T> ChannelHandler iRmSinkIf(@NonNull final Class<? extends T> matcher,
+                                               @NonNull final IfRead<T> handler) {
 
-        return rmSinkIf(Matcher.classMatcher(matcher), handler);
+        return iRmSinkIf(Matcher.classMatcher(matcher), handler);
     }
 
 }
