@@ -2,11 +2,13 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.matched.MatchedOutboundHandler;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import lombok.NonNull;
 
 
+@ChannelHandler.Sharable
 public abstract class OutboundHook<T> extends MatchedOutboundHandler<T> {
 
     protected OutboundHook() {

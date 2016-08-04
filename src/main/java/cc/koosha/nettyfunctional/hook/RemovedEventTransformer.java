@@ -2,10 +2,12 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.matched.MatchedEventHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
+@ChannelHandler.Sharable
 public abstract class RemovedEventTransformer<T> extends MatchedEventHandler<T> {
 
     protected RemovedEventTransformer() {

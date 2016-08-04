@@ -1,11 +1,13 @@
 package cc.koosha.nettyfunctional.matched;
 
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.UnsupportedMessageTypeException;
 import lombok.NonNull;
 
 
+@ChannelHandler.Sharable
 public abstract class ForceMatchedEventHandler<T> extends MatchedEventHandler<T> {
 
     protected ForceMatchedEventHandler() {

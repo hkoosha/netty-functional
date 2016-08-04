@@ -2,11 +2,13 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
+@ChannelHandler.Sharable
 public abstract class RemovedInboundSink<T> extends MatchedInboundHandler<T> {
 
     protected RemovedInboundSink() {

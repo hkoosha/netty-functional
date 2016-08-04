@@ -2,10 +2,12 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.matched.MatchedExceptionHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
+@ChannelHandler.Sharable
 public abstract class ExceptionTransform<T extends Throwable> extends MatchedExceptionHandler<T> {
 
     protected ExceptionTransform() {

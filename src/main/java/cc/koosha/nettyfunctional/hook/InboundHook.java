@@ -2,10 +2,12 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
+@ChannelHandler.Sharable
 public abstract class InboundHook<T> extends MatchedInboundHandler<T> {
 
     protected InboundHook() {
