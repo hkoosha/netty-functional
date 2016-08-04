@@ -40,6 +40,19 @@ public enum Inbound {
         };
     }
 
+    public static <T> ChannelHandler iSink(@NonNull final Matcher matcher,
+                                           @NonNull final Read<T> handler) {
+
+        return new InboundTransformer<T>(matcher) {
+            @Override
+            protected Object read1(final ChannelHandlerContext ctx,
+                                   final T read) throws Exception {
+                handler.accept(ctx, read);
+                return null;
+            }
+        };
+    }
+
     public static <T> ChannelHandler iRmHook(@NonNull final Matcher matcher,
                                              @NonNull final Read<T> handler) {
 
