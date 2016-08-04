@@ -40,4 +40,18 @@ public enum Exceptions {
 
     }
 
+    // ________________________________________________________________________
+
+    public static <T extends Throwable> ChannelHandler exHook(@NonNull final Class<? extends Throwable> matcher,
+                                                              @NonNull final Read<T> handler) {
+
+        return exHook(Matcher.classMatcher(matcher), handler);
+    }
+
+    public static <T extends Throwable> ChannelHandler exTransform(@NonNull final Class<? extends Throwable> matcher,
+                                                                   @NonNull final ExceptionTransformer<T> handler) {
+
+        return exTransform(Matcher.classMatcher(matcher), handler);
+    }
+
 }
