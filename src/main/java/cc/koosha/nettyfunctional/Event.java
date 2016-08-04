@@ -39,6 +39,20 @@ public enum Event {
         };
     }
 
+    public static <T> ChannelHandler eSink(@NonNull final Matcher matcher,
+                                           @NonNull final Read<T> handler) {
+
+        return new EventTransformer<T>(matcher) {
+            @Override
+            protected Object event1(final ChannelHandlerContext ctx,
+                                    final T event) throws Exception {
+
+                handler.accept(ctx, event);
+                return null;
+            }
+        };
+    }
+
     public static <T> ChannelHandler eRmHook(@NonNull final Matcher matcher,
                                              @NonNull final Read<T> handler) {
 
@@ -100,6 +114,12 @@ public enum Event {
                                                 @NonNull final ReadTransformer<T> handler) {
 
         return eTransform(Matcher.classMatcher(matcher), handler);
+    }
+
+    public static <T> ChannelHandler eSink(@NonNull final Class<? extends T> matcher,
+                                           @NonNull final Read<T> handler) {
+
+        return eSink(Matcher.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler eRmHook(@NonNull final Class<? extends T> matcher,

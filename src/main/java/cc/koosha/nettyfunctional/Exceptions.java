@@ -40,6 +40,19 @@ public enum Exceptions {
 
     }
 
+    public static <T extends Throwable> ChannelHandler exSink(@NonNull final Matcher matcher,
+                                                              @NonNull final Read<T> handler) {
+
+        return new ExceptionTransform<T>(matcher) {
+            @Override
+            protected Throwable exception1(final ChannelHandlerContext ctx,
+                                           final T exception) throws Exception {
+                handler.accept(ctx, exception);
+                return null;
+            }
+        };
+    }
+
     // ________________________________________________________________________
 
     public static <T extends Throwable> ChannelHandler exHook(@NonNull final Class<? extends Throwable> matcher,
@@ -52,6 +65,12 @@ public enum Exceptions {
                                                                    @NonNull final ExceptionTransformer<T> handler) {
 
         return exTransform(Matcher.classMatcher(matcher), handler);
+    }
+
+    public static <T extends Throwable> ChannelHandler exSink(@NonNull final Class<? extends Throwable> matcher,
+                                                              @NonNull final Read<T> handler) {
+
+        return exSink(Matcher.classMatcher(matcher), handler);
     }
 
 }

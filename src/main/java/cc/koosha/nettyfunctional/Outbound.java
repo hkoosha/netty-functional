@@ -45,6 +45,21 @@ public enum  Outbound {
 
     }
 
+    public static <T> ChannelHandler oSink(@NonNull final Matcher matcher,
+                                           @NonNull final Write<T> handler) {
+
+        return new OutboundTransformer<T>(matcher) {
+            @Override
+            protected Object write1(final ChannelHandlerContext ctx,
+                                    final T msg,
+                                    final ChannelPromise promise) throws Exception {
+
+                handler.accept(ctx, msg, promise);
+                return null;
+            }
+        };
+    }
+
     public static <T> ChannelHandler oRmHook(@NonNull final Matcher matcher,
                                              @NonNull final Write<T> handler) {
 
@@ -110,6 +125,13 @@ public enum  Outbound {
                                                 @NonNull final WriteTransformer<T> handler) {
 
         return oTransform(Matcher.classMatcher(matcher), handler);
+    }
+
+
+    public static <T> ChannelHandler oSink(@NonNull final Class<? extends T> matcher,
+                                           @NonNull final Write<T> handler) {
+
+        return oSink(Matcher.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler oRmHook(@NonNull final Class<? extends T> matcher,
