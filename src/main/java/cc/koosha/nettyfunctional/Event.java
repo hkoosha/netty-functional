@@ -17,6 +17,12 @@ public enum Event {
                                            @NonNull final Read<T> handler) {
 
         return new EventHook<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void event1(final ChannelHandlerContext ctx,
                                   final T event) throws Exception {
@@ -30,6 +36,12 @@ public enum Event {
                                                 @NonNull final ReadTransformer<T> handler) {
 
         return new EventTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object event1(final ChannelHandlerContext ctx,
                                     final T event) throws Exception {
@@ -43,6 +55,12 @@ public enum Event {
                                            @NonNull final Read<T> handler) {
 
         return new EventTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object event1(final ChannelHandlerContext ctx,
                                     final T event) throws Exception {
@@ -57,6 +75,12 @@ public enum Event {
                                              @NonNull final Read<T> handler) {
 
         return new RemovedEventHook<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void event1(final ChannelHandlerContext ctx,
                                   final T event) throws Exception {
@@ -69,6 +93,12 @@ public enum Event {
                                              @NonNull final Read<T> handler) {
 
         return new RemovedEventSink<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void event1(final ChannelHandlerContext ctx,
                                   final T event) throws Exception {
@@ -81,6 +111,12 @@ public enum Event {
                                                   @NonNull final ReadTransformer<T> handler) {
 
         return new RemovedEventTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object event1(final ChannelHandlerContext ctx,
                                     final T event) throws Exception {
@@ -93,6 +129,12 @@ public enum Event {
                                                @NonNull final IfRead<T> handler) {
 
         return new RemovedIfEventSink<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected boolean event1(final ChannelHandlerContext ctx,
                                      final T event) throws Exception {

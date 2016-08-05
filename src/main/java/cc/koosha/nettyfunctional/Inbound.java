@@ -18,6 +18,12 @@ public enum Inbound {
                                            @NonNull final Read<T> handler) {
 
         return new InboundHook<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void read1(final ChannelHandlerContext ctx,
                                  final T read) throws Exception {

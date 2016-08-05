@@ -17,6 +17,12 @@ public enum Exceptions {
                                                               @NonNull final Read<T> handler) {
 
         return new ExceptionHook<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void exception1(final ChannelHandlerContext ctx,
                                       final T exception) throws Exception {

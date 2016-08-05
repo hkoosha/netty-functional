@@ -1,7 +1,6 @@
 package cc.koosha.nettyfunctional.matched;
 
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
@@ -9,7 +8,6 @@ import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
 
 
-@ChannelHandler.Sharable
 public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAdapter {
 
     private final TypeParameterMatcher typeMatcher;

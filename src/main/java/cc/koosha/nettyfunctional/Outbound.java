@@ -20,6 +20,12 @@ public enum  Outbound {
                                            @NonNull final Write<T> handler) {
 
         return new OutboundHook<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void write1(final ChannelHandlerContext ctx,
                                   final T event,
@@ -34,6 +40,12 @@ public enum  Outbound {
                                                 @NonNull final WriteTransformer<T> handler) {
 
         return new OutboundTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object write1(final ChannelHandlerContext ctx,
                                     final T event,
@@ -49,6 +61,12 @@ public enum  Outbound {
                                            @NonNull final Write<T> handler) {
 
         return new OutboundTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object write1(final ChannelHandlerContext ctx,
                                     final T msg,
@@ -64,6 +82,12 @@ public enum  Outbound {
                                              @NonNull final Write<T> handler) {
 
         return new RemovedOutboundHook<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void write1(final ChannelHandlerContext ctx,
                                   final T msg,
@@ -77,6 +101,12 @@ public enum  Outbound {
                                              @NonNull final Write<T> handler) {
 
         return new RemovedOutboundSink<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void write1(final ChannelHandlerContext ctx,
                                   final T msg,
@@ -90,6 +120,12 @@ public enum  Outbound {
                                                   @NonNull final WriteTransformer<T> handler) {
 
         return new RemovedOutboundTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object write1(final ChannelHandlerContext ctx,
                                     final T msg,
@@ -103,6 +139,12 @@ public enum  Outbound {
                                                @NonNull final IfWrite<T> handler) {
 
         return new RemovedIfOutboundSInk<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected boolean write1(final ChannelHandlerContext ctx,
                                      final T msg,
