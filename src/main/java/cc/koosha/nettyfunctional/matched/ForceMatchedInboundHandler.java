@@ -25,7 +25,8 @@ public abstract class ForceMatchedInboundHandler<I> extends MatchedInboundHandle
 
 
     @Override
-    protected final void unsupportedMsg(@NonNull final ChannelHandlerContext ctx, final Object msg) {
+    protected final void unsupportedMsg(@NonNull final ChannelHandlerContext ctx,
+                                        final Object msg) {
 
         final String type = msg == null ? "null" : msg.getClass().getName();
         throw new UnsupportedMessageTypeException(type);

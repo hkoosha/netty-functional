@@ -37,7 +37,7 @@ public abstract class MatchedEventHandler<T> extends ChannelDuplexHandler {
     public final void userEventTriggered(@NonNull final ChannelHandlerContext ctx,
                                          final Object evt) throws Exception {
 
-        if (this.matches(evt) && this.accepts((T) evt))
+        if (this.matches(evt) && this.accepts(ctx, (T) evt))
             this.event0(ctx, (T) evt);
         else
             this.unsupportedEvent(ctx, evt);
@@ -49,7 +49,7 @@ public abstract class MatchedEventHandler<T> extends ChannelDuplexHandler {
         return this.matcher.apply(event);
     }
 
-    protected boolean accepts(final T event) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final T event) {
 
         return true;
     }

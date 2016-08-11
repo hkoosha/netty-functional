@@ -37,7 +37,7 @@ public abstract class MatchedInboundHandler<T> extends ChannelInboundHandlerAdap
     public final void channelRead(final ChannelHandlerContext ctx,
                                   final Object msg) throws Exception {
 
-        if (this.matches(msg) && this.accepts((T) msg))
+        if (this.matches(msg) && this.accepts(ctx, (T) msg))
             this.read0(ctx, (T) msg);
         else
             this.unsupportedMsg(ctx, msg);
@@ -49,7 +49,7 @@ public abstract class MatchedInboundHandler<T> extends ChannelInboundHandlerAdap
         return this.matcher.apply(msg);
     }
 
-    protected boolean accepts(final T msg) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final T msg) {
 
         return true;
     }

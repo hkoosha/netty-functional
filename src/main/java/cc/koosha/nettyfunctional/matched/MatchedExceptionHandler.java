@@ -37,7 +37,7 @@ public abstract class MatchedExceptionHandler<T extends Throwable> extends Chann
     public final void exceptionCaught(final ChannelHandlerContext ctx,
                                       final Throwable cause) throws Exception {
 
-        if (this.matches(cause) && this.accepts((T) cause))
+        if (this.matches(cause) && this.accepts(ctx, (T) cause))
             this.exception0(ctx, (T) cause);
         else
             this.unsupportedException(ctx, cause);
@@ -48,7 +48,7 @@ public abstract class MatchedExceptionHandler<T extends Throwable> extends Chann
         return this.matcher.apply(exception);
     }
 
-    protected boolean accepts(final T exception) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final T exception) {
 
         return true;
     }

@@ -39,7 +39,7 @@ public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAd
                             final Object msg,
                             final ChannelPromise promise) throws Exception {
 
-        if (this.matches(msg) && this.accepts((T) msg))
+        if (this.matches(msg) && this.accepts(ctx, (T) msg))
             this.write0(ctx, (T) msg, promise);
         else
             this.unsupportedMsg(ctx, msg, promise);
@@ -51,7 +51,7 @@ public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAd
         return this.matcher.apply(msg);
     }
 
-    protected boolean accepts(final T msg) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final T msg) {
 
         return true;
     }
