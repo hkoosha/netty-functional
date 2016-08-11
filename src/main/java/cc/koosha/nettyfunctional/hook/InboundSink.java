@@ -19,8 +19,8 @@ public abstract class InboundSink<T> extends InboundTransformer<T> {
     }
 
     @Override
-    protected Object read1(final ChannelHandlerContext ctx,
-                           final T msg) throws Exception {
+    protected final Object read1(final ChannelHandlerContext ctx,
+                                 final T msg) throws Exception {
 
         this.read2(ctx, msg);
         return null;
