@@ -1,6 +1,7 @@
 package cc.koosha.nettyfunctional;
 
 import cc.koosha.nettyfunctional.hook.ExceptionHook;
+import cc.koosha.nettyfunctional.hook.ExceptionSink;
 import cc.koosha.nettyfunctional.hook.ExceptionTransform;
 import cc.koosha.nettyfunctional.nettyfunctions.ExceptionTransformer;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
@@ -49,12 +50,12 @@ public enum Exceptions {
     public static <T extends Throwable> ChannelHandler exSink(@NonNull final Matcher matcher,
                                                               @NonNull final Read<T> handler) {
 
-        return new ExceptionTransform<T>(matcher) {
+        return new ExceptionSink<T>(matcher) {
+
             @Override
-            protected Throwable exception1(final ChannelHandlerContext ctx,
-                                           final T exception) throws Exception {
+            protected void exception2(final ChannelHandlerContext ctx,
+                                      final T exception) throws Exception {
                 handler.accept(ctx, exception);
-                return null;
             }
         };
     }

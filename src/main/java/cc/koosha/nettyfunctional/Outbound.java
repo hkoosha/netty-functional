@@ -60,7 +60,7 @@ public enum  Outbound {
     public static <T> ChannelHandler oSink(@NonNull final Matcher matcher,
                                            @NonNull final Write<T> handler) {
 
-        return new OutboundTransformer<T>(matcher) {
+        return new OutboundSink<T>(matcher) {
 
             @Override
             public boolean isSharable() {
@@ -68,12 +68,11 @@ public enum  Outbound {
             }
 
             @Override
-            protected Object write1(final ChannelHandlerContext ctx,
-                                    final T msg,
-                                    final ChannelPromise promise) throws Exception {
+            protected void write2(final ChannelHandlerContext ctx,
+                                  final T msg,
+                                  final ChannelPromise promise) throws Exception {
 
                 handler.accept(ctx, msg, promise);
-                return null;
             }
         };
     }

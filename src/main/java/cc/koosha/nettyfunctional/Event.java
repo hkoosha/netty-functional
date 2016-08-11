@@ -54,7 +54,7 @@ public enum Event {
     public static <T> ChannelHandler eSink(@NonNull final Matcher matcher,
                                            @NonNull final Read<T> handler) {
 
-        return new EventTransformer<T>(matcher) {
+        return new EventSink<T>(matcher) {
 
             @Override
             public boolean isSharable() {
@@ -62,11 +62,10 @@ public enum Event {
             }
 
             @Override
-            protected Object event1(final ChannelHandlerContext ctx,
-                                    final T event) throws Exception {
+            protected void event2(final ChannelHandlerContext ctx,
+                                  final T event) throws Exception {
 
                 handler.accept(ctx, event);
-                return null;
             }
         };
     }
