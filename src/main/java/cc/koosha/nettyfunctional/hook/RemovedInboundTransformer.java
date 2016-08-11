@@ -44,8 +44,8 @@ public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler
         }
 
         if(result != null) {
-            ctx.fireChannelRead(result);
             ctx.pipeline().remove(this);
+            ctx.fireChannelRead(result);
         }
     }
 

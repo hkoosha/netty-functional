@@ -38,8 +38,8 @@ public abstract class RemovedOutboundHook<T> extends MatchedOutboundHandler<T> {
                                 final ChannelPromise promise) throws Exception {
 
         this.write1(ctx, msg, promise);
-        ctx.write(msg, promise);
         ctx.pipeline().remove(this);
+        ctx.write(msg, promise);
     }
 
     protected abstract void write1(ChannelHandlerContext ctx, T msg, ChannelPromise promise)

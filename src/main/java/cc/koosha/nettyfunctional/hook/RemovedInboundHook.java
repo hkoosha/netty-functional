@@ -34,8 +34,8 @@ public abstract class RemovedInboundHook<T> extends MatchedInboundHandler<T> {
                          final T msg) throws Exception {
 
         this.read1(ctx, msg);
-        ctx.fireChannelRead(msg);
         ctx.pipeline().remove(this);
+        ctx.fireChannelRead(msg);
     }
 
     protected abstract void read1(ChannelHandlerContext ctx, T msg)

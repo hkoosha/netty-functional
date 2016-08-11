@@ -48,8 +48,8 @@ public abstract class RemovedOutboundTransformer<T> extends MatchedOutboundHandl
         }
 
         if(result != null) {
-            ctx.write(result, promise);
             ctx.pipeline().remove(this);
+            ctx.write(result, promise);
         }
 
     }

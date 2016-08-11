@@ -39,6 +39,7 @@ public abstract class RemovedInboundSink<T> extends MatchedInboundHandler<T> {
         finally {
             ReferenceCountUtil.release(read);
         }
+
         ctx.pipeline().remove(this);
     }
 
