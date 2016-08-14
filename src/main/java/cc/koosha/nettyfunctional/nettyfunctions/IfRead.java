@@ -4,7 +4,6 @@ import cc.koosha.nettyfunctional.checkedfunction.BiFunctionC;
 import io.netty.channel.ChannelHandlerContext;
 
 
-@FunctionalInterface
 public interface IfRead<T> extends BiFunctionC<ChannelHandlerContext, T, Boolean> {
 
     @Override

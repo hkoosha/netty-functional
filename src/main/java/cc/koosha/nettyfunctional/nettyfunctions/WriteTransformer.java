@@ -5,7 +5,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 
 
-@FunctionalInterface
 public interface WriteTransformer<T> extends TiFunctionC<ChannelHandlerContext, T, ChannelPromise, Object> {
 
     @Override

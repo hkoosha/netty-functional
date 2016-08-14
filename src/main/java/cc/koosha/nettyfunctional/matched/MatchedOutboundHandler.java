@@ -18,12 +18,17 @@ public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAd
         this.typeMatcher = TypeParameterMatcher.find(
                 this, MatchedOutboundHandler.class, "T");
 
-        this.matcher = this.typeMatcher::match;
+        this.matcher = new Matcher() {
+            @Override
+            public Boolean apply(final Object msg) {
+                return MatchedOutboundHandler.this.typeMatcher.match(msg);
+            }
+        };
     }
 
     protected MatchedOutboundHandler(@NonNull final Class<?> type) {
 
-        this(Matcher.classMatcher(type));
+        this(MatcherUtil.classMatcher(type));
     }
 
     protected MatchedOutboundHandler(@NonNull final Matcher matcher) {

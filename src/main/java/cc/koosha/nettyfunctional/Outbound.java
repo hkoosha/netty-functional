@@ -1,6 +1,7 @@
 package cc.koosha.nettyfunctional;
 
 import cc.koosha.nettyfunctional.hook.*;
+import cc.koosha.nettyfunctional.matched.MatcherUtil;
 import cc.koosha.nettyfunctional.nettyfunctions.IfWrite;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.nettyfunctions.Write;
@@ -159,44 +160,44 @@ public enum  Outbound {
     public static <T> ChannelHandler oHook(@NonNull final Class<? extends T> matcher,
                                            @NonNull final Write<T> handler) {
 
-        return oHook(Matcher.classMatcher(matcher), handler);
+        return oHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler oTransform(@NonNull final Class<? extends T> matcher,
                                                 @NonNull final WriteTransformer<T> handler) {
 
-        return oTransform(Matcher.classMatcher(matcher), handler);
+        return oTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
 
     public static <T> ChannelHandler oSink(@NonNull final Class<? extends T> matcher,
                                            @NonNull final Write<T> handler) {
 
-        return oSink(Matcher.classMatcher(matcher), handler);
+        return oSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler oRmHook(@NonNull final Class<? extends T> matcher,
                                              @NonNull final Write<T> handler) {
 
-        return oRmHook(Matcher.classMatcher(matcher), handler);
+        return oRmHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler oRmSink(@NonNull final Class<? extends T> matcher,
                                              @NonNull final Write<T> handler) {
 
-        return oRmSink(Matcher.classMatcher(matcher), handler);
+        return oRmSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler oRmTransform(@NonNull final Class<? extends T> matcher,
                                                   @NonNull final WriteTransformer<T> handler) {
 
-        return oRmTransform(Matcher.classMatcher(matcher), handler);
+        return oRmTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler oRmSinkIf(@NonNull final Class<? extends T> matcher,
                                                @NonNull final IfWrite<T> handler) {
 
-        return oRmSinkIf(Matcher.classMatcher(matcher), handler);
+        return oRmSinkIf(MatcherUtil.classMatcher(matcher), handler);
     }
 
 }

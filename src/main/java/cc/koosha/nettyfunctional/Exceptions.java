@@ -3,6 +3,7 @@ package cc.koosha.nettyfunctional;
 import cc.koosha.nettyfunctional.hook.ExceptionHook;
 import cc.koosha.nettyfunctional.hook.ExceptionSink;
 import cc.koosha.nettyfunctional.hook.ExceptionTransform;
+import cc.koosha.nettyfunctional.matched.MatcherUtil;
 import cc.koosha.nettyfunctional.nettyfunctions.ExceptionTransformer;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.nettyfunctions.Read;
@@ -28,7 +29,7 @@ public enum Exceptions {
             protected void exception1(final ChannelHandlerContext ctx,
                                       final T exception) throws Exception {
 
-                handler.accept(ctx, (T) exception);
+                handler.accept(ctx, exception);
             }
         };
     }
@@ -65,19 +66,19 @@ public enum Exceptions {
     public static <T extends Throwable> ChannelHandler exHook(@NonNull final Class<? extends Throwable> matcher,
                                                               @NonNull final Read<T> handler) {
 
-        return exHook(Matcher.classMatcher(matcher), handler);
+        return exHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T extends Throwable> ChannelHandler exTransform(@NonNull final Class<? extends Throwable> matcher,
                                                                    @NonNull final ExceptionTransformer<T> handler) {
 
-        return exTransform(Matcher.classMatcher(matcher), handler);
+        return exTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T extends Throwable> ChannelHandler exSink(@NonNull final Class<? extends Throwable> matcher,
                                                               @NonNull final Read<T> handler) {
 
-        return exSink(Matcher.classMatcher(matcher), handler);
+        return exSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
 }

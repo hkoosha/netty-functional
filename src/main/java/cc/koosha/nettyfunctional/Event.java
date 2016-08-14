@@ -1,6 +1,7 @@
 package cc.koosha.nettyfunctional;
 
 import cc.koosha.nettyfunctional.hook.*;
+import cc.koosha.nettyfunctional.matched.MatcherUtil;
 import cc.koosha.nettyfunctional.nettyfunctions.IfRead;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import cc.koosha.nettyfunctional.nettyfunctions.Read;
@@ -148,43 +149,43 @@ public enum Event {
     public static <T> ChannelHandler eHook(@NonNull final Class<? extends T> matcher,
                                            @NonNull final Read<T> handler) {
 
-        return eHook(Matcher.classMatcher(matcher), handler);
+        return eHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler eTransform(@NonNull final Class<? extends T> matcher,
                                                 @NonNull final ReadTransformer<T> handler) {
 
-        return eTransform(Matcher.classMatcher(matcher), handler);
+        return eTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler eSink(@NonNull final Class<? extends T> matcher,
                                            @NonNull final Read<T> handler) {
 
-        return eSink(Matcher.classMatcher(matcher), handler);
+        return eSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler eRmHook(@NonNull final Class<? extends T> matcher,
                                              @NonNull final Read<T> handler) {
 
-        return eRmHook(Matcher.classMatcher(matcher), handler);
+        return eRmHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler eRmSink(@NonNull final Class<? extends T> matcher,
                                              @NonNull final Read<T> handler) {
 
-        return eRmSink(Matcher.classMatcher(matcher), handler);
+        return eRmSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler eRmTransform(@NonNull final Class<? extends T> matcher,
                                                   @NonNull final ReadTransformer<T> handler) {
 
-        return eRmTransform(Matcher.classMatcher(matcher), handler);
+        return eRmTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
     public static <T> ChannelHandler eRmSinkIf(@NonNull final Class<? extends T> matcher,
                                                @NonNull final IfRead<T> handler) {
 
-        return eRmSinkIf(Matcher.classMatcher(matcher), handler);
+        return eRmSinkIf(MatcherUtil.classMatcher(matcher), handler);
     }
 
 }
