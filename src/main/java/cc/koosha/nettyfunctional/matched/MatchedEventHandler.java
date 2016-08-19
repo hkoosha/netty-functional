@@ -5,22 +5,22 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
+import lombok.val;
 
 
 public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
 
-    private final TypeParameterMatcher typeMatcher;
     private final Matcher matcher;
 
     public MatchedEventHandler() {
 
-        this.typeMatcher = TypeParameterMatcher.find(
-                this, MatchedEventHandler.class, "T");
+        val typeMatcher = TypeParameterMatcher.find(
+                this, MatchedEventHandler.class, "E");
 
         this.matcher = new Matcher() {
             @Override
             public Boolean apply(final Object msg) {
-                return MatchedEventHandler.this.typeMatcher.match(msg);
+                return typeMatcher.match(msg);
             }
         };
     }
@@ -32,7 +32,6 @@ public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
 
     public MatchedEventHandler(@NonNull final Matcher matcher) {
 
-        this.typeMatcher = null;
         this.matcher = matcher;
     }
 

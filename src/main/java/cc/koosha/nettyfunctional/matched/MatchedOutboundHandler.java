@@ -6,22 +6,22 @@ import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
+import lombok.val;
 
 
 public abstract class MatchedOutboundHandler<O> extends ChannelOutboundHandlerAdapter {
 
-    private final TypeParameterMatcher typeMatcher;
     private final Matcher matcher;
 
     protected MatchedOutboundHandler() {
 
-        this.typeMatcher = TypeParameterMatcher.find(
-                this, MatchedOutboundHandler.class, "T");
+        val typeMatcher = TypeParameterMatcher.find(
+                this, MatchedOutboundHandler.class, "O");
 
         this.matcher = new Matcher() {
             @Override
             public Boolean apply(final Object msg) {
-                return MatchedOutboundHandler.this.typeMatcher.match(msg);
+                return typeMatcher.match(msg);
             }
         };
     }
@@ -33,7 +33,6 @@ public abstract class MatchedOutboundHandler<O> extends ChannelOutboundHandlerAd
 
     protected MatchedOutboundHandler(@NonNull final Matcher matcher) {
 
-        this.typeMatcher = null;
         this.matcher = matcher;
     }
 

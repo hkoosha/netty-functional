@@ -5,22 +5,22 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
+import lombok.val;
 
 
 public abstract class MatchedInboundHandler<I> extends ChannelInboundHandlerAdapter {
 
-    private final TypeParameterMatcher typeMatcher;
     private final Matcher matcher;
 
     protected MatchedInboundHandler() {
 
-        this.typeMatcher = TypeParameterMatcher.find(
-                this, MatchedInboundHandler.class, "T");
+        val typeMatcher = TypeParameterMatcher.find(
+                this, MatchedInboundHandler.class, "I");
 
         this.matcher = new Matcher() {
             @Override
             public Boolean apply(final Object msg) {
-                return MatchedInboundHandler.this.typeMatcher.match(msg);
+                return typeMatcher.match(msg);
             }
         };
     }
@@ -32,7 +32,6 @@ public abstract class MatchedInboundHandler<I> extends ChannelInboundHandlerAdap
 
     protected MatchedInboundHandler(@NonNull final Matcher matcher) {
 
-        this.typeMatcher = null;
         this.matcher = matcher;
     }
 

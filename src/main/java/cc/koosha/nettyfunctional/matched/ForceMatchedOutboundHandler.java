@@ -7,7 +7,7 @@ import io.netty.handler.codec.UnsupportedMessageTypeException;
 import lombok.NonNull;
 
 
-public abstract class ForceMatchedOutboundHandler<T> extends MatchedOutboundHandler<T> {
+public abstract class ForceMatchedOutboundHandler<O> extends MatchedOutboundHandler<O> {
 
     protected ForceMatchedOutboundHandler() {
 
