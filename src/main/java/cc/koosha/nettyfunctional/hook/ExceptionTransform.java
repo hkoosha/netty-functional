@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class ExceptionTransform<T extends Throwable> extends MatchedExceptionHandler<T> {
+public abstract class ExceptionTransform<X extends Throwable> extends MatchedExceptionHandler<X> {
 
     protected ExceptionTransform() {
 
@@ -33,7 +33,7 @@ public abstract class ExceptionTransform<T extends Throwable> extends MatchedExc
 
     @Override
     protected void exception0(final ChannelHandlerContext ctx,
-                              final T exception) throws Exception {
+                              final X exception) throws Exception {
 
         final Throwable result = this.exception1(ctx, exception);
 
@@ -41,6 +41,6 @@ public abstract class ExceptionTransform<T extends Throwable> extends MatchedExc
             ctx.fireExceptionCaught(result);
     }
 
-    protected abstract Throwable exception1(final ChannelHandlerContext ctx, final T exception) throws Exception;
+    protected abstract Throwable exception1(final ChannelHandlerContext ctx, final X exception) throws Exception;
 
 }

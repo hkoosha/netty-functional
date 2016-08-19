@@ -7,7 +7,7 @@ import io.netty.channel.ChannelPromise;
 import lombok.NonNull;
 
 
-public abstract class RemovedOutboundHook<T> extends MatchedOutboundHandler<T> {
+public abstract class RemovedOutboundHook<O> extends MatchedOutboundHandler<O> {
 
     protected RemovedOutboundHook() {
     }
@@ -34,7 +34,7 @@ public abstract class RemovedOutboundHook<T> extends MatchedOutboundHandler<T> {
 
     @Override
     protected final void write0(final ChannelHandlerContext ctx,
-                                final T msg,
+                                final O msg,
                                 final ChannelPromise promise) throws Exception {
 
         this.write1(ctx, msg, promise);
@@ -42,7 +42,7 @@ public abstract class RemovedOutboundHook<T> extends MatchedOutboundHandler<T> {
         ctx.write(msg, promise);
     }
 
-    protected abstract void write1(ChannelHandlerContext ctx, T msg, ChannelPromise promise)
+    protected abstract void write1(ChannelHandlerContext ctx, O msg, ChannelPromise promise)
             throws Exception;
 
 }

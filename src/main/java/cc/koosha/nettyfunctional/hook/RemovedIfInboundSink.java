@@ -7,7 +7,7 @@ import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
-public abstract class RemovedIfInboundSink<T> extends MatchedInboundHandler<T> {
+public abstract class RemovedIfInboundSink<I> extends MatchedInboundHandler<I> {
 
     protected RemovedIfInboundSink() {
 
@@ -34,7 +34,7 @@ public abstract class RemovedIfInboundSink<T> extends MatchedInboundHandler<T> {
 
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
-                               final T msg) throws Exception {
+                               final I msg) throws Exception {
 
         boolean result;
 
@@ -49,7 +49,7 @@ public abstract class RemovedIfInboundSink<T> extends MatchedInboundHandler<T> {
             ctx.pipeline().remove(this);
     }
 
-    protected abstract boolean read1(ChannelHandlerContext ctx, T msg)
+    protected abstract boolean read1(ChannelHandlerContext ctx, I msg)
             throws Exception;
 
 }

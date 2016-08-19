@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class EventSink<T> extends EventTransformer<T> {
+public abstract class EventSink<E> extends EventTransformer<E> {
 
     public EventSink() {
     }
@@ -20,13 +20,13 @@ public abstract class EventSink<T> extends EventTransformer<T> {
 
     @Override
     protected final Object event1(final ChannelHandlerContext ctx,
-                                  final T event) throws Exception {
+                                  final E event) throws Exception {
 
         this.event2(ctx, event);
         return null;
     }
 
-    protected abstract void event2(final ChannelHandlerContext ctx, final T event) throws Exception;
+    protected abstract void event2(final ChannelHandlerContext ctx, final E event) throws Exception;
 
 }
 

@@ -8,7 +8,7 @@ import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
 
 
-public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAdapter {
+public abstract class MatchedOutboundHandler<O> extends ChannelOutboundHandlerAdapter {
 
     private final TypeParameterMatcher typeMatcher;
     private final Matcher matcher;
@@ -44,8 +44,8 @@ public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAd
                             final Object msg,
                             final ChannelPromise promise) throws Exception {
 
-        if (this.matches(msg) && this.accepts(ctx, (T) msg))
-            this.write0(ctx, (T) msg, promise);
+        if (this.matches(msg) && this.accepts(ctx, (O) msg))
+            this.write0(ctx, (O) msg, promise);
         else
             this.unsupportedMsg(ctx, msg, promise);
     }
@@ -56,14 +56,14 @@ public abstract class MatchedOutboundHandler<T> extends ChannelOutboundHandlerAd
         return this.matcher.apply(msg);
     }
 
-    protected boolean accepts(final ChannelHandlerContext ctx, final T msg) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final O msg) {
 
         return true;
     }
 
 
     protected abstract void write0(
-            ChannelHandlerContext ctx, T msg, ChannelPromise promise) throws Exception;
+            ChannelHandlerContext ctx, O msg, ChannelPromise promise) throws Exception;
 
     protected abstract void unsupportedMsg(
             ChannelHandlerContext ctx, Object msg, ChannelPromise promise);

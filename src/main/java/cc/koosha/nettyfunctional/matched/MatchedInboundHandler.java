@@ -7,7 +7,7 @@ import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
 
 
-public abstract class MatchedInboundHandler<T> extends ChannelInboundHandlerAdapter {
+public abstract class MatchedInboundHandler<I> extends ChannelInboundHandlerAdapter {
 
     private final TypeParameterMatcher typeMatcher;
     private final Matcher matcher;
@@ -42,8 +42,8 @@ public abstract class MatchedInboundHandler<T> extends ChannelInboundHandlerAdap
     public final void channelRead(final ChannelHandlerContext ctx,
                                   final Object msg) throws Exception {
 
-        if (this.matches(msg) && this.accepts(ctx, (T) msg))
-            this.read0(ctx, (T) msg);
+        if (this.matches(msg) && this.accepts(ctx, (I) msg))
+            this.read0(ctx, (I) msg);
         else
             this.unsupportedMsg(ctx, msg);
     }
@@ -54,13 +54,13 @@ public abstract class MatchedInboundHandler<T> extends ChannelInboundHandlerAdap
         return this.matcher.apply(msg);
     }
 
-    protected boolean accepts(final ChannelHandlerContext ctx, final T msg) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final I msg) {
 
         return true;
     }
 
 
-    protected abstract void read0(ChannelHandlerContext ctx, T msg) throws Exception;
+    protected abstract void read0(ChannelHandlerContext ctx, I msg) throws Exception;
 
     protected abstract void unsupportedMsg(ChannelHandlerContext ctx, Object msg);
 

@@ -8,7 +8,7 @@ import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
-public abstract class OutboundTransformer<T> extends MatchedOutboundHandler<T> {
+public abstract class OutboundTransformer<O> extends MatchedOutboundHandler<O> {
 
     protected OutboundTransformer() {
     }
@@ -34,7 +34,7 @@ public abstract class OutboundTransformer<T> extends MatchedOutboundHandler<T> {
 
     @Override
     protected final void write0(final ChannelHandlerContext ctx,
-                                final T msg,
+                                final O msg,
                                 final ChannelPromise promise) throws Exception {
 
         Object result;
@@ -50,7 +50,7 @@ public abstract class OutboundTransformer<T> extends MatchedOutboundHandler<T> {
             ctx.write(result, promise);
     }
 
-    protected abstract Object write1(ChannelHandlerContext ctx, T msg, ChannelPromise promise)
+    protected abstract Object write1(ChannelHandlerContext ctx, O msg, ChannelPromise promise)
             throws Exception;
 
 }

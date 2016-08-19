@@ -6,17 +6,29 @@ import io.netty.channel.ChannelPromise;
 import lombok.NonNull;
 
 
-public abstract class OutboundSink<O> extends OutboundTransformer<O> {
+public abstract class BidiSink<I, O> extends BidiTransform<I, O> {
 
-    public OutboundSink() {
+    protected BidiSink() {
     }
 
-    public OutboundSink(@NonNull final Class<?> clazz) {
-        super(clazz);
+    protected BidiSink(@NonNull final Class<?> iType,
+                       @NonNull final Class<?> oType) {
+
+        super(iType, oType);
     }
 
-    public OutboundSink(@NonNull final Matcher matcher) {
-        super(matcher);
+    protected BidiSink(@NonNull final Matcher iMatcher,
+                       @NonNull final Matcher oMatcher) {
+
+        super(iMatcher, oMatcher);
+    }
+
+    @Override
+    protected final Object read1(final ChannelHandlerContext ctx,
+                                 final I msg) throws Exception {
+
+        this.read2(ctx, msg);
+        return null;
     }
 
     @Override
@@ -28,8 +40,11 @@ public abstract class OutboundSink<O> extends OutboundTransformer<O> {
         return null;
     }
 
+
     protected abstract void write2(final ChannelHandlerContext ctx,
                                    final O msg,
                                    final ChannelPromise promise) throws Exception;
+
+    protected abstract void read2(final ChannelHandlerContext ctx, final I msg) throws Exception;
 
 }

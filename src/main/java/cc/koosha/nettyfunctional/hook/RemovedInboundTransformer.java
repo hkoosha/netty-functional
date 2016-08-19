@@ -7,7 +7,7 @@ import io.netty.util.ReferenceCountUtil;
 import lombok.NonNull;
 
 
-public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler<T> {
+public abstract class RemovedInboundTransformer<I> extends MatchedInboundHandler<I> {
 
     protected RemovedInboundTransformer() {
     }
@@ -32,7 +32,7 @@ public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler
 
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
-                               final T msg) throws Exception {
+                               final I msg) throws Exception {
 
         Object result;
 
@@ -49,7 +49,7 @@ public abstract class RemovedInboundTransformer<T> extends MatchedInboundHandler
         }
     }
 
-    protected abstract Object read1(ChannelHandlerContext ctx, T msg)
+    protected abstract Object read1(ChannelHandlerContext ctx, I msg)
             throws Exception;
 
 }

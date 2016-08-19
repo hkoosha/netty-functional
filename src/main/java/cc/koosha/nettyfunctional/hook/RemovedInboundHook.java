@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class RemovedInboundHook<T> extends MatchedInboundHandler<T> {
+public abstract class RemovedInboundHook<I> extends MatchedInboundHandler<I> {
 
     protected RemovedInboundHook() {
     }
@@ -31,14 +31,14 @@ public abstract class RemovedInboundHook<T> extends MatchedInboundHandler<T> {
 
     @Override
     protected void read0(final ChannelHandlerContext ctx,
-                         final T msg) throws Exception {
+                         final I msg) throws Exception {
 
         this.read1(ctx, msg);
         ctx.pipeline().remove(this);
         ctx.fireChannelRead(msg);
     }
 
-    protected abstract void read1(ChannelHandlerContext ctx, T msg)
+    protected abstract void read1(ChannelHandlerContext ctx, I msg)
             throws Exception;
 
 }

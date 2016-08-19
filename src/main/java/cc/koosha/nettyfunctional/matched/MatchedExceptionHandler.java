@@ -7,7 +7,7 @@ import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
 
 
-public abstract class MatchedExceptionHandler<T extends Throwable> extends ChannelDuplexHandler {
+public abstract class MatchedExceptionHandler<X extends Throwable> extends ChannelDuplexHandler {
 
     private final TypeParameterMatcher typeMatcher;
     private final Matcher matcher;
@@ -42,8 +42,8 @@ public abstract class MatchedExceptionHandler<T extends Throwable> extends Chann
     public final void exceptionCaught(final ChannelHandlerContext ctx,
                                       final Throwable cause) throws Exception {
 
-        if (this.matches(cause) && this.accepts(ctx, (T) cause))
-            this.exception0(ctx, (T) cause);
+        if (this.matches(cause) && this.accepts(ctx, (X) cause))
+            this.exception0(ctx, (X) cause);
         else
             this.unsupportedException(ctx, cause);
     }
@@ -53,13 +53,13 @@ public abstract class MatchedExceptionHandler<T extends Throwable> extends Chann
         return this.matcher.apply(exception);
     }
 
-    protected boolean accepts(final ChannelHandlerContext ctx, final T exception) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final X exception) {
 
         return true;
     }
 
 
-    protected abstract void exception0(ChannelHandlerContext ctx, T exception) throws Exception;
+    protected abstract void exception0(ChannelHandlerContext ctx, X exception) throws Exception;
 
     protected abstract void unsupportedException(ChannelHandlerContext ctx, Throwable exception);
 

@@ -7,7 +7,7 @@ import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
 
 
-public abstract class MatchedEventHandler<T> extends ChannelDuplexHandler {
+public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
 
     private final TypeParameterMatcher typeMatcher;
     private final Matcher matcher;
@@ -42,8 +42,8 @@ public abstract class MatchedEventHandler<T> extends ChannelDuplexHandler {
     public final void userEventTriggered(@NonNull final ChannelHandlerContext ctx,
                                          final Object evt) throws Exception {
 
-        if (this.matches(evt) && this.accepts(ctx, (T) evt))
-            this.event0(ctx, (T) evt);
+        if (this.matches(evt) && this.accepts(ctx, (E) evt))
+            this.event0(ctx, (E) evt);
         else
             this.unsupportedEvent(ctx, evt);
     }
@@ -54,13 +54,13 @@ public abstract class MatchedEventHandler<T> extends ChannelDuplexHandler {
         return this.matcher.apply(event);
     }
 
-    protected boolean accepts(final ChannelHandlerContext ctx, final T event) {
+    protected boolean accepts(final ChannelHandlerContext ctx, final E event) {
 
         return true;
     }
 
 
-    protected abstract void event0(ChannelHandlerContext ctx, T event) throws Exception;
+    protected abstract void event0(ChannelHandlerContext ctx, E event) throws Exception;
 
     protected abstract void unsupportedEvent(ChannelHandlerContext ctx, Object event);
 

@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class InboundSink<T> extends InboundTransformer<T> {
+public abstract class InboundSink<I> extends InboundTransformer<I> {
 
     public InboundSink() {
     }
@@ -20,12 +20,12 @@ public abstract class InboundSink<T> extends InboundTransformer<T> {
 
     @Override
     protected final Object read1(final ChannelHandlerContext ctx,
-                                 final T msg) throws Exception {
+                                 final I msg) throws Exception {
 
         this.read2(ctx, msg);
         return null;
     }
 
-    protected abstract void read2(final ChannelHandlerContext ctx, final T msg) throws Exception;
+    protected abstract void read2(final ChannelHandlerContext ctx, final I msg) throws Exception;
 
 }

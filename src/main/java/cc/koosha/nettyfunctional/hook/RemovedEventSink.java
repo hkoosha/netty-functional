@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class RemovedEventSink<T> extends MatchedEventHandler<T> {
+public abstract class RemovedEventSink<E> extends MatchedEventHandler<E> {
 
     protected RemovedEventSink() {
     }
@@ -31,13 +31,13 @@ public abstract class RemovedEventSink<T> extends MatchedEventHandler<T> {
 
     @Override
     protected final void event0(final ChannelHandlerContext ctx,
-                                final T event) throws Exception {
+                                final E event) throws Exception {
 
         this.event1(ctx, event);
         ctx.pipeline().remove(this);
     }
 
-    protected abstract void event1(ChannelHandlerContext ctx, T event)
+    protected abstract void event1(ChannelHandlerContext ctx, E event)
             throws Exception;
 
 }

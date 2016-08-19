@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public abstract class EventTransformer<T> extends MatchedEventHandler<T> {
+public abstract class EventTransformer<E> extends MatchedEventHandler<E> {
 
     protected EventTransformer() {
     }
@@ -31,7 +31,7 @@ public abstract class EventTransformer<T> extends MatchedEventHandler<T> {
 
     @Override
     protected final void event0(final ChannelHandlerContext ctx,
-                                final T event) throws Exception {
+                                final E event) throws Exception {
 
         final Object result = this.event1(ctx, event);
 
@@ -39,7 +39,7 @@ public abstract class EventTransformer<T> extends MatchedEventHandler<T> {
             ctx.fireUserEventTriggered(result);
     }
 
-    protected abstract Object event1(ChannelHandlerContext ctx, T event)
+    protected abstract Object event1(ChannelHandlerContext ctx, E event)
             throws Exception;
 
 }

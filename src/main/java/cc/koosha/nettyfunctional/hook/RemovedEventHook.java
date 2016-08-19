@@ -8,7 +8,7 @@ import lombok.NonNull;
 
 
 @ChannelHandler.Sharable
-public abstract class RemovedEventHook<T> extends MatchedEventHandler<T> {
+public abstract class RemovedEventHook<E> extends MatchedEventHandler<E> {
 
     protected RemovedEventHook() {
     }
@@ -33,14 +33,14 @@ public abstract class RemovedEventHook<T> extends MatchedEventHandler<T> {
 
     @Override
     protected final void event0(final ChannelHandlerContext ctx,
-                                final T event) throws Exception {
+                                final E event) throws Exception {
 
         this.event1(ctx, event);
         ctx.fireUserEventTriggered(event);
         ctx.pipeline().remove(this);
     }
 
-    protected abstract void event1(ChannelHandlerContext ctx, T event)
+    protected abstract void event1(ChannelHandlerContext ctx, E event)
             throws Exception;
 
 }
