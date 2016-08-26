@@ -33,5 +33,14 @@ public enum NettyFunc {
 
     }
 
+    public static final ConsumerC<Channel> NOOP = new ConsumerC<Channel>() {
+        @Override
+        public void accept(final Channel channel) throws Exception {
+
+        }
+    };
+
+    public static final ChannelHandler NOOP_CHANNEL_INIT = initer(NOOP);
+
 }
 
