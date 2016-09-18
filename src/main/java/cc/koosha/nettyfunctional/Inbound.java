@@ -38,9 +38,15 @@ public enum Inbound {
                                                 @NonNull final ReadTransformer<T> handler) {
 
         return new InboundTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object read1(final ChannelHandlerContext ctx,
-                                    final T read) throws Exception {
+                                   final T read) throws Exception {
 
                 return handler.apply(ctx, read);
             }
@@ -51,6 +57,12 @@ public enum Inbound {
                                            @NonNull final Read<T> handler) {
 
         return new InboundSink<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void read2(final ChannelHandlerContext ctx,
                                  final T read) throws Exception {
@@ -63,6 +75,12 @@ public enum Inbound {
                                              @NonNull final Read<T> handler) {
 
         return new RemovedInboundHook<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void read1(final ChannelHandlerContext ctx,
                                   final T read) throws Exception {
@@ -75,6 +93,12 @@ public enum Inbound {
                                              @NonNull final Read<T> handler) {
 
         return new RemovedInboundSink<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected void read1(final ChannelHandlerContext ctx,
                                  final T read) throws Exception {
@@ -87,6 +111,12 @@ public enum Inbound {
                                                   @NonNull final ReadTransformer<T> handler) {
 
         return new RemovedInboundTransformer<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected Object read1(final ChannelHandlerContext ctx,
                                    final T read) throws Exception {
@@ -99,6 +129,12 @@ public enum Inbound {
                                                @NonNull final IfRead<T> handler) {
 
         return new RemovedIfInboundSink<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+                return true;
+            }
+
             @Override
             protected boolean read1(final ChannelHandlerContext ctx,
                                     final T msg) throws Exception {

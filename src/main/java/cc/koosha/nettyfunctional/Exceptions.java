@@ -38,6 +38,13 @@ public enum Exceptions {
                                                                    @NonNull final ExceptionTransformer<T> handler) {
 
         return new ExceptionTransform<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+
+                return true;
+            }
+
             @Override
             protected Throwable exception1(final ChannelHandlerContext ctx,
                                            final T exception) throws Exception {
@@ -52,6 +59,12 @@ public enum Exceptions {
                                                               @NonNull final Read<T> handler) {
 
         return new ExceptionSink<T>(matcher) {
+
+            @Override
+            public boolean isSharable() {
+
+                return true;
+            }
 
             @Override
             protected void exception2(final ChannelHandlerContext ctx,
