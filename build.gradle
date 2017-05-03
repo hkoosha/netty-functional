@@ -43,10 +43,10 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 
 dependencies {
-    compile 'org.projectlombok:lombok:1.16.10'
+    compile 'org.projectlombok:lombok:1.16.16'
 
     //compile files('libs/netty.jar')
-    compile group: 'io.netty', name: 'netty-handler', version: '4.1.4.Final'
+    compile group: 'io.netty', name: 'netty-handler', version: '4.1.9.Final'
 
     testCompile 'org.testng:testng:6.9.10'
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
