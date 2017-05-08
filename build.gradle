@@ -1,8 +1,10 @@
-group 'cc.koosha'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'distribution'
+apply plugin: 'maven-publish'
+
+group 'cc.koosha'
+version '1.0.0'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -10,18 +12,14 @@ targetCompatibility = 1.7
 repositories {
     mavenCentral()
     mavenLocal()
-    jcenter()
-    maven {
-      url "http://oss.sonatype.org/content/groups/public"
-    }
-}
-
-test {
-    useTestNG()
 }
 
 compileJava {
     options.compilerArgs << '-Xlint:unchecked'
+}
+
+test {
+    useTestNG()
 }
 
 idea {
@@ -29,6 +27,15 @@ idea {
     downloadJavadoc = true
     downloadSources = true
   }
+}
+
+dependencies {
+    compile 'org.projectlombok:lombok:1.16.16'
+
+    compile 'io.netty:netty-handler:4.1.10.Final'
+
+    testCompile 'org.testng:testng:6.11'
+    testCompile 'org.mockito:mockito-core:2.7.22'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -41,19 +48,10 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-
-dependencies {
-    compile 'org.projectlombok:lombok:1.16.16'
-
-    //compile files('libs/netty.jar')
-    compile group: 'io.netty', name: 'netty-handler', version: '4.1.9.Final'
-
-    testCompile 'org.testng:testng:6.9.10'
-    testCompile 'org.mockito:mockito-all:2.0.2-beta'
-}
-
-
 task allJar(type: Jar) {
+    classifier = 'everything'
+    from sourceSets.main.allSource
+    from javadoc.destinationDir 
     baseName = 'allJar'
     from configurations.archives.artifacts.files.collect {
         zipTree(it)
@@ -66,3 +64,13 @@ artifacts {
 //    archives allJar
 }
 
+publishing {                                                                    
+    publications {                                                              
+        mavenJava(MavenPublication) {                                           
+            from components.java                                                
+            artifact sourcesJar {                                               
+                classifier "sources"                                            
+            }                                                                   
+        }                                                                       
+    }                                                                           
+}  
