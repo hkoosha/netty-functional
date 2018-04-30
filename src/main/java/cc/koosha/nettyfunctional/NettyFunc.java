@@ -199,6 +199,26 @@ public final class NettyFunc {
         _safe(null, bootstrap::connect, listener, onErr);
     }
 
+
+    public static void send(Bootstrap bootstrap, Object payload) {
+        connect(bootstrap, channel -> write(channel, payload));
+    }
+
+    public static void send(Bootstrap bootstrap, Object payload, Consumer<Channel> listener) {
+        connect(bootstrap, channel -> write(channel, payload, () -> listener.accept(channel)));
+    }
+
+    public static void sender(Bootstrap bootstrap, Object payload, Consumer<Throwable> onErr) {
+        connect(bootstrap, channel -> writer(channel, payload, onErr), onErr);
+    }
+
+    public static void send(Bootstrap bootstrap,
+                            Object payload,
+                            Consumer<Channel> listener,
+                            Consumer<Throwable> onErr) {
+        connect(bootstrap, channel -> write(channel, payload, () -> listener.accept(channel), onErr), onErr);
+    }
+
     // _________________________________________________________________________
 
     public static boolean close(final ChannelHandlerContext ctx) {
