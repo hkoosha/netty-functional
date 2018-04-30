@@ -6,6 +6,7 @@ import cc.koosha.nettyfunctional.log.NettyFuncLogger;
 import cc.koosha.nettyfunctional.log.SerrLogger;
 import cc.koosha.nettyfunctional.log.Slf4jNettyFuncLogger;
 import cc.koosha.nettyfunctional.nettyfunctions.Write;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.ChannelHandler.Sharable;
 import lombok.NonNull;
@@ -40,7 +41,7 @@ public final class NettyFunc {
     }
 
 
-    private static final Consumer<Throwable> LOG_THROWABLE_AWAY = throwable -> logger.warn("error", throwable);
+    private static final Consumer<Throwable> THROW_LOG_AWAY = throwable -> logger.warn("error", throwable);
     private static final Consumer<Channel> THROW_CHANNEL_AWAY = channel -> {
     };
 
@@ -133,7 +134,7 @@ public final class NettyFunc {
 
 
     public static void safe(Channel channel, Supplier<ChannelFuture> c, Consumer<Channel> listener) {
-        _safe(channel, c, listener, LOG_THROWABLE_AWAY);
+        _safe(channel, c, listener, THROW_LOG_AWAY);
     }
 
     public static void safer(Channel channel, Supplier<ChannelFuture> c, Consumer<Throwable> onErr) {
@@ -149,11 +150,11 @@ public final class NettyFunc {
 
 
     public static void write(ChannelHandlerContext c, Object payload) {
-        _safe(c.channel(), () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, LOG_THROWABLE_AWAY);
+        _safe(c.channel(), () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
     }
 
     public static void write(ChannelHandlerContext c, Object payload, Action listener) {
-        _safe(c.channel(), () -> c.writeAndFlush(payload), channel -> listener.exec(), LOG_THROWABLE_AWAY);
+        _safe(c.channel(), () -> c.writeAndFlush(payload), channel -> listener.exec(), THROW_LOG_AWAY);
     }
 
     public static void writer(ChannelHandlerContext c, Object payload, Consumer<Throwable> onErr) {
@@ -166,11 +167,11 @@ public final class NettyFunc {
 
 
     public static void write(Channel c, Object payload) {
-        _safe(c, () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, LOG_THROWABLE_AWAY);
+        _safe(c, () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
     }
 
     public static void write(Channel c, Object payload, Action listener) {
-        _safe(c, () -> c.writeAndFlush(payload), channel -> listener.exec(), LOG_THROWABLE_AWAY);
+        _safe(c, () -> c.writeAndFlush(payload), channel -> listener.exec(), THROW_LOG_AWAY);
     }
 
     public static void writer(Channel c, Object payload, Consumer<Throwable> onErr) {
@@ -179,6 +180,23 @@ public final class NettyFunc {
 
     public static void write(Channel c, Object payload, Action listener, Consumer<Throwable> onErr) {
         _safe(c, () -> c.writeAndFlush(payload), channel -> listener.exec(), onErr);
+    }
+
+
+    public static void connect(Bootstrap bootstrap) {
+        _safe(null, bootstrap::connect, THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
+    }
+
+    public static void connect(Bootstrap bootstrap, Consumer<Channel> listener) {
+        _safe(null, bootstrap::connect, listener, THROW_LOG_AWAY);
+    }
+
+    public static void connecter(Bootstrap bootstrap, Consumer<Throwable> onErr) {
+        _safe(null, bootstrap::connect, THROW_CHANNEL_AWAY, onErr);
+    }
+
+    public static void connect(Bootstrap bootstrap, Consumer<Channel> listener, Consumer<Throwable> onErr) {
+        _safe(null, bootstrap::connect, listener, onErr);
     }
 
     // _________________________________________________________________________
