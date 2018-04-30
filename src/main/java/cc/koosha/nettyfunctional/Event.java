@@ -11,8 +11,12 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public enum Event {
-    ;
+@SuppressWarnings({"WeakerAccess", "unused"})
+public final class Event {
+
+    private Event() {
+
+    }
 
     public static <T> ChannelHandler eHook(@NonNull final Matcher matcher,
                                            @NonNull final Read<T> handler) {

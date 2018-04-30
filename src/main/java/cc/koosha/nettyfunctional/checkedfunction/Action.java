@@ -2,8 +2,8 @@ package cc.koosha.nettyfunctional.checkedfunction;
 
 
 @FunctionalInterface
-public interface ConsumerC<T> {
+public interface Action {
 
-    void accept(T t) throws Exception;
+    void exec();
 
 }

@@ -7,6 +7,7 @@ import io.netty.channel.ChannelPromise;
 import lombok.NonNull;
 
 
+@SuppressWarnings("unused")
 public abstract class BidiHook<I, O> extends MatchedBidiHandler<I, O> {
 
     protected BidiHook() {

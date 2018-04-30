@@ -6,8 +6,8 @@ apply plugin: 'maven-publish'
 group 'cc.koosha'
 version '1.0.0'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -31,6 +31,7 @@ idea {
 
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.20'
+    compileOnly 'org.slf4j:slf4j-api:1.7.25'
 
     compile 'io.netty:netty-handler:4.1.24.Final'
 

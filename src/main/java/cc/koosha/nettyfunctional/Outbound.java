@@ -10,12 +10,13 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 
-@RequiredArgsConstructor
-public enum  Outbound {
-    ;
+public final class Outbound {
+
+    private Outbound() {
+
+    }
 
     public static <T> ChannelHandler oHook(@NonNull final Matcher matcher,
                                            @NonNull final Write<T> handler) {

@@ -12,8 +12,12 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
-public enum Exceptions {
-    ;
+@SuppressWarnings({"WeakerAccess", "unused"})
+public final class Exceptions {
+
+    private Exceptions() {
+
+    }
 
     public static <T extends Throwable> ChannelHandler exHook(@NonNull final Matcher matcher,
                                                               @NonNull final Read<T> handler) {

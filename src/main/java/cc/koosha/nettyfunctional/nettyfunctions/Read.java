@@ -4,6 +4,7 @@ import cc.koosha.nettyfunctional.checkedfunction.BiConsumerC;
 import io.netty.channel.ChannelHandlerContext;
 
 
+@FunctionalInterface
 public interface Read<T> extends BiConsumerC<ChannelHandlerContext, T> {
 
     @Override

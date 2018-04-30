@@ -11,9 +11,12 @@ import io.netty.channel.ChannelHandlerContext;
 import lombok.NonNull;
 
 
+@SuppressWarnings({"WeakerAccess", "unused"})
+public final class Inbound {
 
-public enum Inbound {
-    ;
+    private Inbound() {
+
+    }
 
     public static <T> ChannelHandler iHook(@NonNull final Matcher matcher,
                                            @NonNull final Read<T> handler) {
@@ -83,7 +86,7 @@ public enum Inbound {
 
             @Override
             protected void read1(final ChannelHandlerContext ctx,
-                                  final T read) throws Exception {
+                                 final T read) throws Exception {
                 handler.accept(ctx, read);
             }
         };
