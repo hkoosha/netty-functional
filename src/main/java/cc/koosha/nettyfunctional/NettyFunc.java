@@ -95,31 +95,38 @@ public final class NettyFunc {
                               Supplier<ChannelFuture> c,
                               Consumer<Channel> listener,
                               Consumer<Throwable> onErr) {
+        ChannelFuture cf = null;
         try {
-            c.get().addListener(f -> {
+            cf = c.get();
+            val channelFuture = cf;
+            cf.addListener(f -> {
                 try {
                     if (!f.isSuccess()) {
                         close(channel);
+                        close(channelFuture);
                         onErr.accept(f.cause());
                     }
                     else {
                         try {
-                            listener.accept(channel);
+                            listener.accept(channel == null ? channelFuture.channel() : channel);
                         }
                         catch (Exception e) {
                             close(channel);
+                            close(channelFuture);
                             onErr.accept(e);
                         }
                     }
                 }
                 catch (Exception e) {
                     close(channel);
+                    close(channelFuture);
                     throw e;
                 }
             });
         }
         catch (Exception e) {
             close(channel);
+            close(cf);
             throw e;
         }
     }
