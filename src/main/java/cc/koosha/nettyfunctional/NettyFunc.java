@@ -92,10 +92,10 @@ public final class NettyFunc {
 
     // _________________________________________________________________________
 
-    private static void _safe(Channel channel,
-                              Supplier<ChannelFuture> c,
-                              Consumer<Channel> listener,
-                              Consumer<Throwable> onErr) {
+    private static ChannelFuture _safe(Channel channel,
+                                       Supplier<ChannelFuture> c,
+                                       Consumer<Channel> listener,
+                                       Consumer<Throwable> onErr) {
         ChannelFuture cf = null;
         try {
             cf = c.get();
@@ -130,93 +130,97 @@ public final class NettyFunc {
             close(cf);
             throw e;
         }
+        return cf;
     }
 
 
-    public static void safe(Channel channel, Supplier<ChannelFuture> c, Consumer<Channel> listener) {
-        _safe(channel, c, listener, THROW_LOG_AWAY);
+    public static ChannelFuture safe(Channel channel, Supplier<ChannelFuture> c, Consumer<Channel> listener) {
+        return _safe(channel, c, listener, THROW_LOG_AWAY);
     }
 
-    public static void safer(Channel channel, Supplier<ChannelFuture> c, Consumer<Throwable> onErr) {
-        _safe(channel, c, THROW_CHANNEL_AWAY, onErr);
+    public static ChannelFuture safer(Channel channel, Supplier<ChannelFuture> c, Consumer<Throwable> onErr) {
+        return _safe(channel, c, THROW_CHANNEL_AWAY, onErr);
     }
 
-    public static void safe(Channel channel,
-                            Supplier<ChannelFuture> c,
-                            Consumer<Channel> listener,
-                            Consumer<Throwable> onErr) {
-        _safe(channel, c, listener, onErr);
-    }
-
-
-    public static void write(ChannelHandlerContext c, Object payload) {
-        _safe(c.channel(), () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
-    }
-
-    public static void write(ChannelHandlerContext c, Object payload, Action listener) {
-        _safe(c.channel(), () -> c.writeAndFlush(payload), channel -> listener.exec(), THROW_LOG_AWAY);
-    }
-
-    public static void writer(ChannelHandlerContext c, Object payload, Consumer<Throwable> onErr) {
-        _safe(c.channel(), () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, onErr);
-    }
-
-    public static void write(ChannelHandlerContext c, Object payload, Action listener, Consumer<Throwable> onErr) {
-        _safe(c.channel(), () -> c.writeAndFlush(payload), channel -> listener.exec(), onErr);
+    public static ChannelFuture safe(Channel channel,
+                                     Supplier<ChannelFuture> c,
+                                     Consumer<Channel> listener,
+                                     Consumer<Throwable> onErr) {
+        return _safe(channel, c, listener, onErr);
     }
 
 
-    public static void write(Channel c, Object payload) {
-        _safe(c, () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
+    public static ChannelFuture write(ChannelHandlerContext c, Object payload) {
+        return _safe(c.channel(), () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
     }
 
-    public static void write(Channel c, Object payload, Action listener) {
-        _safe(c, () -> c.writeAndFlush(payload), channel -> listener.exec(), THROW_LOG_AWAY);
+    public static ChannelFuture write(ChannelHandlerContext c, Object payload, Action listener) {
+        return _safe(c.channel(), () -> c.writeAndFlush(payload), channel -> listener.exec(), THROW_LOG_AWAY);
     }
 
-    public static void writer(Channel c, Object payload, Consumer<Throwable> onErr) {
-        _safe(c, () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, onErr);
+    public static ChannelFuture writer(ChannelHandlerContext c, Object payload, Consumer<Throwable> onErr) {
+        return _safe(c.channel(), () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, onErr);
     }
 
-    public static void write(Channel c, Object payload, Action listener, Consumer<Throwable> onErr) {
-        _safe(c, () -> c.writeAndFlush(payload), channel -> listener.exec(), onErr);
-    }
-
-
-    public static void connect(Bootstrap bootstrap) {
-        _safe(null, bootstrap::connect, THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
-    }
-
-    public static void connect(Bootstrap bootstrap, Consumer<Channel> listener) {
-        _safe(null, bootstrap::connect, listener, THROW_LOG_AWAY);
-    }
-
-    public static void connecter(Bootstrap bootstrap, Consumer<Throwable> onErr) {
-        _safe(null, bootstrap::connect, THROW_CHANNEL_AWAY, onErr);
-    }
-
-    public static void connect(Bootstrap bootstrap, Consumer<Channel> listener, Consumer<Throwable> onErr) {
-        _safe(null, bootstrap::connect, listener, onErr);
+    public static ChannelFuture write(ChannelHandlerContext c,
+                                      Object payload,
+                                      Action listener,
+                                      Consumer<Throwable> onErr) {
+        return _safe(c.channel(), () -> c.writeAndFlush(payload), channel -> listener.exec(), onErr);
     }
 
 
-    public static void send(Bootstrap bootstrap, Object payload) {
-        connect(bootstrap, channel -> write(channel, payload));
+    public static ChannelFuture write(Channel c, Object payload) {
+        return _safe(c, () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
     }
 
-    public static void send(Bootstrap bootstrap, Object payload, Consumer<Channel> listener) {
-        connect(bootstrap, channel -> write(channel, payload, () -> listener.accept(channel)));
+    public static ChannelFuture write(Channel c, Object payload, Action listener) {
+        return _safe(c, () -> c.writeAndFlush(payload), channel -> listener.exec(), THROW_LOG_AWAY);
     }
 
-    public static void sender(Bootstrap bootstrap, Object payload, Consumer<Throwable> onErr) {
-        connect(bootstrap, channel -> writer(channel, payload, onErr), onErr);
+    public static ChannelFuture writer(Channel c, Object payload, Consumer<Throwable> onErr) {
+        return _safe(c, () -> c.writeAndFlush(payload), THROW_CHANNEL_AWAY, onErr);
     }
 
-    public static void send(Bootstrap bootstrap,
-                            Object payload,
-                            Consumer<Channel> listener,
-                            Consumer<Throwable> onErr) {
-        connect(bootstrap, channel -> write(channel, payload, () -> listener.accept(channel), onErr), onErr);
+    public static ChannelFuture write(Channel c, Object payload, Action listener, Consumer<Throwable> onErr) {
+        return _safe(c, () -> c.writeAndFlush(payload), channel -> listener.exec(), onErr);
+    }
+
+
+    public static ChannelFuture connect(Bootstrap bootstrap) {
+        return _safe(null, bootstrap::connect, THROW_CHANNEL_AWAY, THROW_LOG_AWAY);
+    }
+
+    public static ChannelFuture connect(Bootstrap bootstrap, Consumer<Channel> listener) {
+        return _safe(null, bootstrap::connect, listener, THROW_LOG_AWAY);
+    }
+
+    public static ChannelFuture connecter(Bootstrap bootstrap, Consumer<Throwable> onErr) {
+        return _safe(null, bootstrap::connect, THROW_CHANNEL_AWAY, onErr);
+    }
+
+    public static ChannelFuture connect(Bootstrap bootstrap, Consumer<Channel> listener, Consumer<Throwable> onErr) {
+        return _safe(null, bootstrap::connect, listener, onErr);
+    }
+
+
+    public static ChannelFuture send(Bootstrap bootstrap, Object payload) {
+        return connect(bootstrap, channel -> write(channel, payload));
+    }
+
+    public static ChannelFuture send(Bootstrap bootstrap, Object payload, Consumer<Channel> listener) {
+        return connect(bootstrap, channel -> write(channel, payload, () -> listener.accept(channel)));
+    }
+
+    public static ChannelFuture sender(Bootstrap bootstrap, Object payload, Consumer<Throwable> onErr) {
+        return connect(bootstrap, channel -> writer(channel, payload, onErr), onErr);
+    }
+
+    public static ChannelFuture send(Bootstrap bootstrap,
+                                     Object payload,
+                                     Consumer<Channel> listener,
+                                     Consumer<Throwable> onErr) {
+        return connect(bootstrap, channel -> write(channel, payload, () -> listener.accept(channel), onErr), onErr);
     }
 
     // _________________________________________________________________________
