@@ -11,15 +11,14 @@ import lombok.NonNull;
 public abstract class OutboundTransformer<O> extends MatchedOutboundHandler<O> {
 
     protected OutboundTransformer() {
+        super();
     }
 
     protected OutboundTransformer(@NonNull final Class<?> clazz) {
-
         super(clazz);
     }
 
     protected OutboundTransformer(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -28,7 +27,6 @@ public abstract class OutboundTransformer<O> extends MatchedOutboundHandler<O> {
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg,
                                         final ChannelPromise promise) {
-
         ctx.write(msg, promise);
     }
 
@@ -36,7 +34,6 @@ public abstract class OutboundTransformer<O> extends MatchedOutboundHandler<O> {
     protected final void write0(final ChannelHandlerContext ctx,
                                 final O msg,
                                 final ChannelPromise promise) throws Exception {
-
         Object result;
 
         try {

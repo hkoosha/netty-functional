@@ -9,15 +9,14 @@ import lombok.NonNull;
 public abstract class EventHook<T> extends MatchedEventHandler<T> {
 
     protected EventHook() {
+        super();
     }
 
     protected EventHook(@NonNull final Class<?> type) {
-
         super(type);
     }
 
     protected EventHook(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -25,14 +24,12 @@ public abstract class EventHook<T> extends MatchedEventHandler<T> {
     @Override
     protected final void unsupportedEvent(final ChannelHandlerContext ctx,
                                           final Object event) {
-
         ctx.fireUserEventTriggered(event);
     }
 
     @Override
     protected final void event0(final ChannelHandlerContext ctx,
                                 final T event) throws Exception {
-
         this.event1(ctx, event);
         ctx.fireUserEventTriggered(event);
     }

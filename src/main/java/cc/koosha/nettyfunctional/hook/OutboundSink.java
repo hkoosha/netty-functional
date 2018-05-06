@@ -9,6 +9,7 @@ import lombok.NonNull;
 public abstract class OutboundSink<O> extends OutboundTransformer<O> {
 
     public OutboundSink() {
+        super();
     }
 
     public OutboundSink(@NonNull final Class<?> clazz) {
@@ -23,7 +24,6 @@ public abstract class OutboundSink<O> extends OutboundTransformer<O> {
     protected final Object write1(final ChannelHandlerContext ctx,
                                   final O msg,
                                   final ChannelPromise promise) throws Exception {
-
         this.write2(ctx, msg, promise);
         return null;
     }

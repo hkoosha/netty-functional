@@ -8,6 +8,7 @@ import lombok.NonNull;
 public abstract class EventSink<E> extends EventTransformer<E> {
 
     public EventSink() {
+        super();
     }
 
     public EventSink(@NonNull final Class<?> type) {
@@ -21,7 +22,6 @@ public abstract class EventSink<E> extends EventTransformer<E> {
     @Override
     protected final Object event1(final ChannelHandlerContext ctx,
                                   final E event) throws Exception {
-
         this.event2(ctx, event);
         return null;
     }

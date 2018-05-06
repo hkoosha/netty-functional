@@ -12,12 +12,10 @@ public abstract class ForceMatchedEventHandler<E> extends MatchedEventHandler<E>
     }
 
     protected ForceMatchedEventHandler(@NonNull final Class<?> type) {
-
         super(type);
     }
 
     protected ForceMatchedEventHandler(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -25,7 +23,6 @@ public abstract class ForceMatchedEventHandler<E> extends MatchedEventHandler<E>
     @Override
     protected final void unsupportedEvent(@NonNull final ChannelHandlerContext ctx,
                                           final Object evt) {
-
         final String type = evt == null ? "null" : evt.getClass().getName();
         throw new UnsupportedMessageTypeException(type);
     }

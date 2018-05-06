@@ -8,6 +8,7 @@ import lombok.NonNull;
 public abstract class InboundSink<I> extends InboundTransformer<I> {
 
     public InboundSink() {
+        super();
     }
 
     public InboundSink(@NonNull final Class<?> clazz) {
@@ -21,7 +22,6 @@ public abstract class InboundSink<I> extends InboundTransformer<I> {
     @Override
     protected final Object read1(final ChannelHandlerContext ctx,
                                  final I msg) throws Exception {
-
         this.read2(ctx, msg);
         return null;
     }

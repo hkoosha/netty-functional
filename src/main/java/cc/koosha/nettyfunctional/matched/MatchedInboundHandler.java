@@ -7,31 +7,25 @@ import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
 import lombok.val;
 
+import static cc.koosha.nettyfunctional.NettyFunc.release;
 
+
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantThrows"})
 public abstract class MatchedInboundHandler<I> extends ChannelInboundHandlerAdapter {
 
     private final Matcher matcher;
 
     protected MatchedInboundHandler() {
-
         val typeMatcher = TypeParameterMatcher.find(
                 this, MatchedInboundHandler.class, "I");
-
-        this.matcher = new Matcher() {
-            @Override
-            public Boolean apply(final Object msg) {
-                return typeMatcher.match(msg);
-            }
-        };
+        this.matcher = typeMatcher::match;
     }
 
     protected MatchedInboundHandler(@NonNull final Class<?> type) {
-
         this(MatcherUtil.classMatcher(type));
     }
 
     protected MatchedInboundHandler(@NonNull final Matcher matcher) {
-
         this.matcher = matcher;
     }
 
@@ -40,21 +34,24 @@ public abstract class MatchedInboundHandler<I> extends ChannelInboundHandlerAdap
     @Override
     public final void channelRead(final ChannelHandlerContext ctx,
                                   final Object msg) throws Exception {
-
-        if (this.matches(msg) && this.accepts(ctx, (I) msg))
-            this.read0(ctx, (I) msg);
-        else
-            this.unsupportedMsg(ctx, msg);
+        try {
+            if (this.matches(msg) && this.accepts(ctx, ((I) msg)))
+                this.read0(ctx, (I) msg);
+            else
+                this.unsupportedMsg(ctx, msg);
+        }
+        catch (Throwable e) {
+            release(msg);
+            throw e;
+        }
     }
 
 
     protected boolean matches(@NonNull final Object msg) throws Exception {
-
         return this.matcher.apply(msg);
     }
 
     protected boolean accepts(final ChannelHandlerContext ctx, final I msg) {
-
         return true;
     }
 

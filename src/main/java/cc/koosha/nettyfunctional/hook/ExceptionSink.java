@@ -8,6 +8,7 @@ import lombok.NonNull;
 public abstract class ExceptionSink<T extends Throwable> extends ExceptionTransform<T> {
 
     public ExceptionSink() {
+        super();
     }
 
     public ExceptionSink(@NonNull final Class<?> type) {
@@ -21,7 +22,6 @@ public abstract class ExceptionSink<T extends Throwable> extends ExceptionTransf
     @Override
     protected final Throwable exception1(final ChannelHandlerContext ctx,
                                          final T exception) throws Exception {
-
         this.exception2(ctx, exception);
         return null;
     }

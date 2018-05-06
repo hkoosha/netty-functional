@@ -10,15 +10,14 @@ import lombok.NonNull;
 public abstract class InboundTransformer<I> extends MatchedInboundHandler<I> {
 
     protected InboundTransformer() {
+        super();
     }
 
     protected InboundTransformer(@NonNull final Class<?> clazz) {
-
         super(clazz);
     }
 
     protected InboundTransformer(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -26,14 +25,12 @@ public abstract class InboundTransformer<I> extends MatchedInboundHandler<I> {
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg) {
-
         ctx.fireChannelRead(msg);
     }
 
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
                                final I msg) throws Exception {
-
         Object result;
 
         try {

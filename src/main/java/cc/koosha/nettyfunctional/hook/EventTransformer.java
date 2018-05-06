@@ -9,15 +9,14 @@ import lombok.NonNull;
 public abstract class EventTransformer<E> extends MatchedEventHandler<E> {
 
     protected EventTransformer() {
+        super();
     }
 
     protected EventTransformer(@NonNull final Class<?> type) {
-
         super(type);
     }
 
     protected EventTransformer(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -25,14 +24,12 @@ public abstract class EventTransformer<E> extends MatchedEventHandler<E> {
     @Override
     protected final void unsupportedEvent(final ChannelHandlerContext ctx,
                                           final Object event) {
-
         ctx.fireUserEventTriggered(event);
     }
 
     @Override
     protected final void event0(final ChannelHandlerContext ctx,
                                 final E event) throws Exception {
-
         final Object result = this.event1(ctx, event);
 
         if(result != null)

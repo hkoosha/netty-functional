@@ -13,25 +13,16 @@ public abstract class MatchedExceptionHandler<X extends Throwable> extends Chann
     private final Matcher matcher;
 
     public MatchedExceptionHandler() {
-
         val typeMatcher = TypeParameterMatcher.find(
                 this, MatchedExceptionHandler.class, "X");
-
-        this.matcher = new Matcher() {
-            @Override
-            public Boolean apply(final Object msg) {
-                return typeMatcher.match(msg);
-            }
-        };
+        this.matcher = typeMatcher::match;
     }
 
     public MatchedExceptionHandler(@NonNull final Class<?> type) {
-
         this(MatcherUtil.classMatcher(type));
     }
 
     public MatchedExceptionHandler(@NonNull final Matcher matcher) {
-
         this.matcher = matcher;
     }
 
@@ -40,7 +31,6 @@ public abstract class MatchedExceptionHandler<X extends Throwable> extends Chann
     @Override
     public final void exceptionCaught(final ChannelHandlerContext ctx,
                                       final Throwable cause) throws Exception {
-
         if (this.matches(cause) && this.accepts(ctx, (X) cause))
             this.exception0(ctx, (X) cause);
         else
@@ -48,12 +38,10 @@ public abstract class MatchedExceptionHandler<X extends Throwable> extends Chann
     }
 
     protected boolean matches(final Throwable exception) throws Exception {
-
         return this.matcher.apply(exception);
     }
 
     protected boolean accepts(final ChannelHandlerContext ctx, final X exception) {
-
         return true;
     }
 

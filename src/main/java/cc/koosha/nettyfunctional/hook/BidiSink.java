@@ -9,24 +9,22 @@ import lombok.NonNull;
 public abstract class BidiSink<I, O> extends BidiTransform<I, O> {
 
     protected BidiSink() {
+        super();
     }
 
     protected BidiSink(@NonNull final Class<?> iType,
                        @NonNull final Class<?> oType) {
-
         super(iType, oType);
     }
 
     protected BidiSink(@NonNull final Matcher iMatcher,
                        @NonNull final Matcher oMatcher) {
-
         super(iMatcher, oMatcher);
     }
 
     @Override
     protected final Object read1(final ChannelHandlerContext ctx,
                                  final I msg) throws Exception {
-
         this.read2(ctx, msg);
         return null;
     }
@@ -35,7 +33,6 @@ public abstract class BidiSink<I, O> extends BidiTransform<I, O> {
     protected final Object write1(final ChannelHandlerContext ctx,
                                   final O msg,
                                   final ChannelPromise promise) throws Exception {
-
         this.write2(ctx, msg, promise);
         return null;
     }

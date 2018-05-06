@@ -9,17 +9,14 @@ import lombok.NonNull;
 public abstract class ForceMatchedInboundHandler<I> extends MatchedInboundHandler<I> {
 
     protected ForceMatchedInboundHandler() {
-
         super();
     }
 
     protected ForceMatchedInboundHandler(@NonNull final Class<?> clazz) {
-
         super(clazz);
     }
 
     protected ForceMatchedInboundHandler(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -27,7 +24,6 @@ public abstract class ForceMatchedInboundHandler<I> extends MatchedInboundHandle
     @Override
     protected final void unsupportedMsg(@NonNull final ChannelHandlerContext ctx,
                                         final Object msg) {
-
         final String type = msg == null ? "null" : msg.getClass().getName();
         throw new UnsupportedMessageTypeException(type);
     }

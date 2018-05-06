@@ -9,15 +9,14 @@ import lombok.NonNull;
 public abstract class InboundHook<T> extends MatchedInboundHandler<T> {
 
     protected InboundHook() {
+        super();
     }
 
     protected InboundHook(@NonNull final Class<?> clazz) {
-
         super(clazz);
     }
 
     protected InboundHook(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -25,15 +24,12 @@ public abstract class InboundHook<T> extends MatchedInboundHandler<T> {
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg) {
-
-        // skip message and call next handler.
         ctx.fireChannelRead(msg);
     }
 
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
                                final T msg) throws Exception {
-
         this.read1(ctx, msg);
         ctx.fireChannelRead(msg);
     }

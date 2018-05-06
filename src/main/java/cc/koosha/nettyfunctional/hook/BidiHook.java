@@ -11,23 +11,21 @@ import lombok.NonNull;
 public abstract class BidiHook<I, O> extends MatchedBidiHandler<I, O> {
 
     protected BidiHook() {
+        super();
     }
 
     protected BidiHook(@NonNull final Class<?> iType,
                        @NonNull final Class<?> oType) {
-
         super(iType, oType);
     }
 
     protected BidiHook(@NonNull final Matcher iMatcher,
                        @NonNull final Matcher oMatcher) {
-
         super(iMatcher, oMatcher);
     }
 
     @Override
     protected void iUnsupportedMsg(final ChannelHandlerContext ctx, final Object msg) {
-
         ctx.fireChannelRead(msg);
     }
 
@@ -35,7 +33,6 @@ public abstract class BidiHook<I, O> extends MatchedBidiHandler<I, O> {
     protected void oUnsupportedMsg(final ChannelHandlerContext ctx,
                                    final Object msg,
                                    final ChannelPromise promise) {
-
         ctx.write(msg, promise);
     }
 
@@ -43,7 +40,6 @@ public abstract class BidiHook<I, O> extends MatchedBidiHandler<I, O> {
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
                                final I msg) throws Exception {
-
         this.read1(ctx, msg);
         ctx.fireChannelRead(msg);
     }
@@ -56,7 +52,6 @@ public abstract class BidiHook<I, O> extends MatchedBidiHandler<I, O> {
     protected final void write0(final ChannelHandlerContext ctx,
                                 final O msg,
                                 final ChannelPromise promise) throws Exception {
-
         this.write1(ctx, msg, promise);
         ctx.write(msg, promise);
     }

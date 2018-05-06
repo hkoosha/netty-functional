@@ -9,13 +9,7 @@ public enum  MatcherUtil {
     ;
 
     public static Matcher classMatcher(@NonNull final Class<?> clazz) {
-
-        return new Matcher() {
-            @Override
-            public Boolean apply(final Object object) {
-                return clazz.isAssignableFrom(object.getClass());
-            }
-        };
+        return object -> clazz.isAssignableFrom(object.getClass());
     }
 
 }

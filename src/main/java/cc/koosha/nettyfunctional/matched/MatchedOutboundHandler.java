@@ -8,31 +8,25 @@ import io.netty.util.internal.TypeParameterMatcher;
 import lombok.NonNull;
 import lombok.val;
 
+import static cc.koosha.nettyfunctional.NettyFunc.release;
 
+
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantThrows"})
 public abstract class MatchedOutboundHandler<O> extends ChannelOutboundHandlerAdapter {
 
     private final Matcher matcher;
 
     protected MatchedOutboundHandler() {
-
         val typeMatcher = TypeParameterMatcher.find(
                 this, MatchedOutboundHandler.class, "O");
-
-        this.matcher = new Matcher() {
-            @Override
-            public Boolean apply(final Object msg) {
-                return typeMatcher.match(msg);
-            }
-        };
+        this.matcher = typeMatcher::match;
     }
 
     protected MatchedOutboundHandler(@NonNull final Class<?> type) {
-
         this(MatcherUtil.classMatcher(type));
     }
 
     protected MatchedOutboundHandler(@NonNull final Matcher matcher) {
-
         this.matcher = matcher;
     }
 
@@ -42,21 +36,24 @@ public abstract class MatchedOutboundHandler<O> extends ChannelOutboundHandlerAd
     public final void write(@NonNull final ChannelHandlerContext ctx,
                             final Object msg,
                             final ChannelPromise promise) throws Exception {
-
-        if (this.matches(msg) && this.accepts(ctx, (O) msg))
-            this.write0(ctx, (O) msg, promise);
-        else
-            this.unsupportedMsg(ctx, msg, promise);
+        try {
+            if (this.matches(msg) && this.accepts(ctx, ((O) msg)))
+                this.write0(ctx, (O) msg, promise);
+            else
+                this.unsupportedMsg(ctx, msg, promise);
+        }
+        catch (Throwable e) {
+            release(msg);
+            throw e;
+        }
     }
 
 
     protected boolean matches(@NonNull final Object msg) throws Exception {
-
         return this.matcher.apply(msg);
     }
 
     protected boolean accepts(final ChannelHandlerContext ctx, final O msg) {
-
         return true;
     }
 

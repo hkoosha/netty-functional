@@ -13,25 +13,16 @@ public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
     private final Matcher matcher;
 
     public MatchedEventHandler() {
-
         val typeMatcher = TypeParameterMatcher.find(
                 this, MatchedEventHandler.class, "E");
-
-        this.matcher = new Matcher() {
-            @Override
-            public Boolean apply(final Object msg) {
-                return typeMatcher.match(msg);
-            }
-        };
+        this.matcher = typeMatcher::match;
     }
 
     public MatchedEventHandler(@NonNull final Class<?> type) {
-
         this(MatcherUtil.classMatcher(type));
     }
 
     public MatchedEventHandler(@NonNull final Matcher matcher) {
-
         this.matcher = matcher;
     }
 
@@ -40,7 +31,6 @@ public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
     @Override
     public final void userEventTriggered(@NonNull final ChannelHandlerContext ctx,
                                          final Object evt) throws Exception {
-
         if (this.matches(evt) && this.accepts(ctx, (E) evt))
             this.event0(ctx, (E) evt);
         else
@@ -49,12 +39,10 @@ public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
 
 
     protected boolean matches(final Object event) throws Exception {
-
         return this.matcher.apply(event);
     }
 
     protected boolean accepts(final ChannelHandlerContext ctx, final E event) {
-
         return true;
     }
 

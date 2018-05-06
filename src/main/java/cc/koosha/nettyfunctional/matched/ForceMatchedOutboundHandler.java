@@ -10,17 +10,14 @@ import lombok.NonNull;
 public abstract class ForceMatchedOutboundHandler<O> extends MatchedOutboundHandler<O> {
 
     protected ForceMatchedOutboundHandler() {
-
         super();
     }
 
     protected ForceMatchedOutboundHandler(@NonNull final Class<?> clazz) {
-
         super(clazz);
     }
 
     protected ForceMatchedOutboundHandler(@NonNull final Matcher matcher) {
-
         super(matcher);
     }
 
@@ -29,7 +26,6 @@ public abstract class ForceMatchedOutboundHandler<O> extends MatchedOutboundHand
     protected final void unsupportedMsg(@NonNull final ChannelHandlerContext ctx,
                                         final Object msg,
                                         final ChannelPromise promise) {
-
         final String type = msg == null ? "null" : msg.getClass().getName();
         throw new UnsupportedMessageTypeException(type);
     }

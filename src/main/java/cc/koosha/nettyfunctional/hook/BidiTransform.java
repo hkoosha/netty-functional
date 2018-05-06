@@ -11,17 +11,16 @@ import lombok.NonNull;
 public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
 
     protected BidiTransform() {
+        super();
     }
 
     protected BidiTransform(@NonNull final Class<?> iType,
                             @NonNull final Class<?> oType) {
-
         super(iType, oType);
     }
 
     protected BidiTransform(@NonNull final Matcher iMatcher,
                             @NonNull final Matcher oMatcher) {
-
         super(iMatcher, oMatcher);
     }
 
@@ -29,14 +28,12 @@ public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
     @Override
     protected final void iUnsupportedMsg(final ChannelHandlerContext ctx,
                                          final Object msg) {
-
         ctx.fireChannelRead(msg);
     }
 
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
                                final I msg) throws Exception {
-
         Object result;
 
         try {
@@ -55,7 +52,6 @@ public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
     protected final void oUnsupportedMsg(final ChannelHandlerContext ctx,
                                          final Object msg,
                                          final ChannelPromise promise) {
-
         ctx.write(msg, promise);
     }
 
@@ -63,7 +59,6 @@ public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
     protected final void write0(final ChannelHandlerContext ctx,
                                 final O msg,
                                 final ChannelPromise promise) throws Exception {
-
         Object result;
 
         try {

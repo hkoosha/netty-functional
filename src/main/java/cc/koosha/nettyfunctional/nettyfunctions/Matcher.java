@@ -9,4 +9,6 @@ public interface Matcher extends FunctionC<Object, Boolean> {
     @Override
     Boolean apply(Object object);
 
+    Matcher ALWAYS = object -> true;
+
 }

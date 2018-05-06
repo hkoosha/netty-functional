@@ -40,23 +40,9 @@ public final class NettyFunc {
         }
     }
 
-
     private static final Consumer<Throwable> THROW_LOG_AWAY = throwable -> logger.warn("error", throwable);
     private static final Consumer<Channel> THROW_CHANNEL_AWAY = channel -> {
     };
-
-
-    public static ChannelHandler initer(@NonNull final ConsumerC<Channel> accept) {
-
-        return new NettyFunc.InitChannel(accept);
-
-    }
-
-    public static ChannelOutboundHandler onBind(@NonNull final Write<SocketAddress> accept) {
-
-        return new OnBind(accept);
-    }
-
 
     @Sharable
     @RequiredArgsConstructor
@@ -89,6 +75,18 @@ public final class NettyFunc {
 
     }
 
+    // _________________________________________________________________________
+
+    public static ChannelHandler initer(@NonNull final ConsumerC<Channel> accept) {
+
+        return new NettyFunc.InitChannel(accept);
+
+    }
+
+    public static ChannelOutboundHandler onBind(@NonNull final Write<SocketAddress> accept) {
+
+        return new OnBind(accept);
+    }
 
     // _________________________________________________________________________
 
