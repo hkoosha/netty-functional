@@ -4,7 +4,6 @@ import cc.koosha.nettyfunctional.matched.MatchedOutboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import lombok.NonNull;
 
 
 public abstract class OutboundHook<O> extends MatchedOutboundHandler<O> {
@@ -13,17 +12,17 @@ public abstract class OutboundHook<O> extends MatchedOutboundHandler<O> {
         super();
     }
 
-    protected OutboundHook(@NonNull final Class<?> clazz) {
+    protected OutboundHook(final Class<?> clazz) {
         super(clazz);
     }
 
-    protected OutboundHook(@NonNull final Matcher matcher) {
+    protected OutboundHook(final Matcher matcher) {
         super(matcher);
     }
 
 
     @Override
-    protected void unsupportedMsg(@NonNull final ChannelHandlerContext ctx,
+    protected void unsupportedMsg(final ChannelHandlerContext ctx,
                                   final Object msg,
                                   final ChannelPromise promise) {
         ctx.write(msg, promise);

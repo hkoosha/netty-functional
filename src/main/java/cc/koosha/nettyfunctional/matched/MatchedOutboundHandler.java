@@ -5,10 +5,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.internal.TypeParameterMatcher;
-import lombok.NonNull;
-import lombok.val;
 
-import static cc.koosha.nettyfunctional.NettyFunc.release;
+import java.util.Objects;
+
+import static cc.koosha.nettyfunctional.matched.MatcherUtil.release;
 
 
 @SuppressWarnings({"unused", "WeakerAccess", "RedundantThrows"})
@@ -17,23 +17,24 @@ public abstract class MatchedOutboundHandler<O> extends ChannelOutboundHandlerAd
     private final Matcher matcher;
 
     protected MatchedOutboundHandler() {
-        val typeMatcher = TypeParameterMatcher.find(
+        TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
                 this, MatchedOutboundHandler.class, "O");
         this.matcher = typeMatcher::match;
     }
 
-    protected MatchedOutboundHandler(@NonNull final Class<?> type) {
+    protected MatchedOutboundHandler(final Class<?> type) {
         this(MatcherUtil.classMatcher(type));
     }
 
-    protected MatchedOutboundHandler(@NonNull final Matcher matcher) {
+    protected MatchedOutboundHandler(final Matcher matcher) {
+        Objects.requireNonNull(matcher, "matcher");
         this.matcher = matcher;
     }
 
 
     @SuppressWarnings("unchecked")
     @Override
-    public final void write(@NonNull final ChannelHandlerContext ctx,
+    public final void write(final ChannelHandlerContext ctx,
                             final Object msg,
                             final ChannelPromise promise) throws Exception {
         try {
@@ -49,7 +50,7 @@ public abstract class MatchedOutboundHandler<O> extends ChannelOutboundHandlerAd
     }
 
 
-    protected boolean matches(@NonNull final Object msg) throws Exception {
+    protected boolean matches(final Object msg) throws Exception {
         return this.matcher.apply(msg);
     }
 

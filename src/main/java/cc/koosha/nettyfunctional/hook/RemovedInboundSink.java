@@ -4,23 +4,19 @@ import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
-import lombok.NonNull;
 
 
 public abstract class RemovedInboundSink<I> extends MatchedInboundHandler<I> {
 
     protected RemovedInboundSink() {
-
         super();
     }
 
-    protected RemovedInboundSink(@NonNull final Class<?> type) {
-
+    protected RemovedInboundSink(final Class<?> type) {
         super(type);
     }
 
-    protected RemovedInboundSink(@NonNull final Matcher matcher) {
-
+    protected RemovedInboundSink(final Matcher matcher) {
         super(matcher);
     }
 

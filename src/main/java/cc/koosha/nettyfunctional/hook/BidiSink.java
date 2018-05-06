@@ -3,7 +3,6 @@ package cc.koosha.nettyfunctional.hook;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import lombok.NonNull;
 
 
 public abstract class BidiSink<I, O> extends BidiTransform<I, O> {
@@ -12,13 +11,13 @@ public abstract class BidiSink<I, O> extends BidiTransform<I, O> {
         super();
     }
 
-    protected BidiSink(@NonNull final Class<?> iType,
-                       @NonNull final Class<?> oType) {
+    protected BidiSink(final Class<?> iType,
+                       final Class<?> oType) {
         super(iType, oType);
     }
 
-    protected BidiSink(@NonNull final Matcher iMatcher,
-                       @NonNull final Matcher oMatcher) {
+    protected BidiSink(final Matcher iMatcher,
+                       final Matcher oMatcher) {
         super(iMatcher, oMatcher);
     }
 

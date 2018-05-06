@@ -2,12 +2,11 @@ package cc.koosha.nettyfunctional.hook;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
-import lombok.val;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 
 public class RemovedEventHookTest {
@@ -19,7 +18,7 @@ public class RemovedEventHookTest {
         final int init = 22;
         final AtomicInteger read = new AtomicInteger(-1);
 
-        val h0 = new RemovedEventHook<AtomicInteger>(AtomicInteger.class) {
+        RemovedEventHook<AtomicInteger> h0 = new RemovedEventHook<AtomicInteger>(AtomicInteger.class) {
             @Override
             protected void event1(ChannelHandlerContext ctx,
                                   AtomicInteger event) throws Exception {
@@ -28,7 +27,7 @@ public class RemovedEventHookTest {
             }
         };
 
-        val h1 = new RemovedEventHook<String>(String.class) {
+        RemovedEventHook<String> h1 = new RemovedEventHook<String>(String.class) {
             @Override
             protected void event1(ChannelHandlerContext ctx,
                                   String msg) throws Exception {
@@ -37,7 +36,7 @@ public class RemovedEventHookTest {
             }
         };
 
-        val h2 = new RemovedEventHook<AtomicInteger>(AtomicInteger.class) {
+        RemovedEventHook<AtomicInteger> h2 = new RemovedEventHook<AtomicInteger>(AtomicInteger.class) {
 
             @Override
             protected void event1(ChannelHandlerContext ctx,
@@ -47,7 +46,7 @@ public class RemovedEventHookTest {
             }
         };
 
-        val em = new EmbeddedChannel(h0, h1, h2);
+        EmbeddedChannel em = new EmbeddedChannel(h0, h1, h2);
 
         final int present = em.pipeline().names().size();
         em.pipeline().fireUserEventTriggered(new AtomicInteger(init));

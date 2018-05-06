@@ -4,7 +4,6 @@ import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.UnsupportedMessageTypeException;
-import lombok.NonNull;
 
 
 public abstract class ForceMatchedOutboundHandler<O> extends MatchedOutboundHandler<O> {
@@ -13,17 +12,17 @@ public abstract class ForceMatchedOutboundHandler<O> extends MatchedOutboundHand
         super();
     }
 
-    protected ForceMatchedOutboundHandler(@NonNull final Class<?> clazz) {
+    protected ForceMatchedOutboundHandler(final Class<?> clazz) {
         super(clazz);
     }
 
-    protected ForceMatchedOutboundHandler(@NonNull final Matcher matcher) {
+    protected ForceMatchedOutboundHandler(final Matcher matcher) {
         super(matcher);
     }
 
 
     @Override
-    protected final void unsupportedMsg(@NonNull final ChannelHandlerContext ctx,
+    protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg,
                                         final ChannelPromise promise) {
         final String type = msg == null ? "null" : msg.getClass().getName();

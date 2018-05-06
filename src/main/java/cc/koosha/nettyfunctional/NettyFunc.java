@@ -9,11 +9,9 @@ import cc.koosha.nettyfunctional.nettyfunctions.Write;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.ChannelHandler.Sharable;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 import java.net.SocketAddress;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -34,7 +32,7 @@ public final class NettyFunc {
             logger = new Slf4jNettyFuncLogger();
         }
         catch (ClassNotFoundException e) {
-            val l = new SerrLogger();
+            final SerrLogger l = new SerrLogger();
             l.error("slf4j not found", e);
             logger = l;
         }
@@ -45,10 +43,13 @@ public final class NettyFunc {
     };
 
     @Sharable
-    @RequiredArgsConstructor
     private static final class InitChannel extends ChannelInitializer<Channel> {
 
         private final ConsumerC<Channel> apply;
+
+        private InitChannel(final ConsumerC<Channel> apply) {
+            this.apply = apply;
+        }
 
         protected void initChannel(final Channel ch) throws Exception {
 
@@ -58,10 +59,13 @@ public final class NettyFunc {
     }
 
     @Sharable
-    @RequiredArgsConstructor
     private static final class OnBind extends ChannelOutboundHandlerAdapter {
 
         private final Write<SocketAddress> apply;
+
+        private OnBind(final Write<SocketAddress> apply) {
+            this.apply = apply;
+        }
 
         @Override
         public void bind(final ChannelHandlerContext ctx,
@@ -77,14 +81,14 @@ public final class NettyFunc {
 
     // _________________________________________________________________________
 
-    public static ChannelHandler initer(@NonNull final ConsumerC<Channel> accept) {
-
+    public static ChannelHandler initer(final ConsumerC<Channel> accept) {
+        Objects.requireNonNull(accept, "initer");
         return new NettyFunc.InitChannel(accept);
 
     }
 
-    public static ChannelOutboundHandler onBind(@NonNull final Write<SocketAddress> accept) {
-
+    public static ChannelOutboundHandler onBind(final Write<SocketAddress> accept) {
+        Objects.requireNonNull(accept, "onBind");
         return new OnBind(accept);
     }
 
@@ -97,7 +101,7 @@ public final class NettyFunc {
         ChannelFuture cf = null;
         try {
             cf = c.get();
-            val channelFuture = cf;
+            final ChannelFuture channelFuture = cf;
             cf.addListener(f -> {
                 try {
                     if (!f.isSuccess()) {

@@ -5,9 +5,10 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.internal.TypeParameterMatcher;
-import lombok.NonNull;
 
-import static cc.koosha.nettyfunctional.NettyFunc.release;
+import java.util.Objects;
+
+import static cc.koosha.nettyfunctional.matched.MatcherUtil.release;
 
 
 @SuppressWarnings({"unused", "WeakerAccess", "RedundantThrows"})
@@ -27,13 +28,15 @@ public abstract class MatchedBidiHandler<I, O> extends ChannelDuplexHandler {
         this.oMatcher = oTypeMatcher::match;
     }
 
-    protected MatchedBidiHandler(@NonNull final Class<?> iType,
-                                 @NonNull final Class<?> oType) {
+    protected MatchedBidiHandler(final Class<?> iType,
+                                 final Class<?> oType) {
         this(MatcherUtil.classMatcher(iType), MatcherUtil.classMatcher(oType));
     }
 
-    protected MatchedBidiHandler(@NonNull final Matcher iMatcher,
-                                 @NonNull final Matcher oMatcher) {
+    protected MatchedBidiHandler(final Matcher iMatcher,
+                                 final Matcher oMatcher) {
+        Objects.requireNonNull(iMatcher, "InboundMatcher");
+        Objects.requireNonNull(oMatcher, "OutboundMatcher");
         this.iMatcher = iMatcher;
         this.oMatcher = oMatcher;
     }
@@ -82,7 +85,7 @@ public abstract class MatchedBidiHandler<I, O> extends ChannelDuplexHandler {
     }
 
 
-    protected boolean iMatches(@NonNull final Object msg) throws Exception {
+    protected boolean iMatches(final Object msg) throws Exception {
         return this.iMatcher.apply(msg);
     }
 
@@ -90,7 +93,7 @@ public abstract class MatchedBidiHandler<I, O> extends ChannelDuplexHandler {
         return true;
     }
 
-    protected boolean oMatches(@NonNull final Object msg) throws Exception {
+    protected boolean oMatches(final Object msg) throws Exception {
         return this.oMatcher.apply(msg);
     }
 

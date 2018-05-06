@@ -8,7 +8,8 @@ import cc.koosha.nettyfunctional.nettyfunctions.Read;
 import cc.koosha.nettyfunctional.nettyfunctions.ReadTransformer;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
+
+import java.util.Objects;
 
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -18,9 +19,10 @@ public final class Inbound {
 
     }
 
-    public static <T> ChannelHandler iHook(@NonNull final Matcher matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iHook(final Matcher matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new InboundHook<T>(matcher) {
 
             @Override
@@ -37,9 +39,10 @@ public final class Inbound {
         };
     }
 
-    public static <T> ChannelHandler iTransform(@NonNull final Matcher matcher,
-                                                @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler iTransform(final Matcher matcher,
+                                                final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new InboundTransformer<T>(matcher) {
 
             @Override
@@ -56,9 +59,10 @@ public final class Inbound {
         };
     }
 
-    public static <T> ChannelHandler iSink(@NonNull final Matcher matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iSink(final Matcher matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new InboundSink<T>(matcher) {
 
             @Override
@@ -74,9 +78,10 @@ public final class Inbound {
         };
     }
 
-    public static <T> ChannelHandler iRmHook(@NonNull final Matcher matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iRmHook(final Matcher matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new RemovedInboundHook<T>(matcher) {
 
             @Override
@@ -92,9 +97,10 @@ public final class Inbound {
         };
     }
 
-    public static <T> ChannelHandler iRmSink(@NonNull final Matcher matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iRmSink(final Matcher matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new RemovedInboundSink<T>(matcher) {
 
             @Override
@@ -110,9 +116,10 @@ public final class Inbound {
         };
     }
 
-    public static <T> ChannelHandler iRmTransform(@NonNull final Matcher matcher,
-                                                  @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler iRmTransform(final Matcher matcher,
+                                                  final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new RemovedInboundTransformer<T>(matcher) {
 
             @Override
@@ -128,9 +135,10 @@ public final class Inbound {
         };
     }
 
-    public static <T> ChannelHandler iRmSinkIf(@NonNull final Matcher matcher,
-                                               @NonNull final IfRead<T> handler) {
-
+    public static <T> ChannelHandler iRmSinkIf(final Matcher matcher,
+                                               final IfRead<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new RemovedIfInboundSink<T>(matcher) {
 
             @Override
@@ -150,45 +158,52 @@ public final class Inbound {
 
     // ________________________________________________________________________
 
-    public static <T> ChannelHandler iHook(@NonNull final Class<? extends T> matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iHook(final Class<? extends T> matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return iHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler iTransform(@NonNull final Class<? extends T> matcher,
-                                                @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler iTransform(final Class<? extends T> matcher,
+                                                final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return iTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler iSink(@NonNull final Class<? extends T> matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iSink(final Class<? extends T> matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return iSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler iRmHook(@NonNull final Class<? extends T> matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iRmHook(final Class<? extends T> matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return iRmHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler iRmSink(@NonNull final Class<? extends T> matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler iRmSink(final Class<? extends T> matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return iRmSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler iRmTransform(@NonNull final Class<? extends T> matcher,
-                                                  @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler iRmTransform(final Class<? extends T> matcher,
+                                                  final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return iRmTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler iRmSinkIf(@NonNull final Class<? extends T> matcher,
-                                               @NonNull final IfRead<T> handler) {
-
+    public static <T> ChannelHandler iRmSinkIf(final Class<? extends T> matcher,
+                                               final IfRead<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return iRmSinkIf(MatcherUtil.classMatcher(matcher), handler);
     }
 

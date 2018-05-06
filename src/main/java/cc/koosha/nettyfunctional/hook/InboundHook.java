@@ -3,7 +3,6 @@ package cc.koosha.nettyfunctional.hook;
 import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 public abstract class InboundHook<T> extends MatchedInboundHandler<T> {
@@ -12,11 +11,11 @@ public abstract class InboundHook<T> extends MatchedInboundHandler<T> {
         super();
     }
 
-    protected InboundHook(@NonNull final Class<?> clazz) {
+    protected InboundHook(final Class<?> clazz) {
         super(clazz);
     }
 
-    protected InboundHook(@NonNull final Matcher matcher) {
+    protected InboundHook(final Matcher matcher) {
         super(matcher);
     }
 

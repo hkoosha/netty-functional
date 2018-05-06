@@ -5,23 +5,19 @@ import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.ReferenceCountUtil;
-import lombok.NonNull;
 
 
-public abstract class RemovedIfOutboundSInk<O> extends MatchedOutboundHandler<O> {
+public abstract class RemovedIfOutboundSink<O> extends MatchedOutboundHandler<O> {
 
-    protected RemovedIfOutboundSInk() {
-
+    protected RemovedIfOutboundSink() {
         super();
     }
 
-    protected RemovedIfOutboundSInk(@NonNull final Class<?> type) {
-
+    protected RemovedIfOutboundSink(final Class<?> type) {
         super(type);
     }
 
-    protected RemovedIfOutboundSInk(@NonNull final Matcher matcher) {
-
+    protected RemovedIfOutboundSink(final Matcher matcher) {
         super(matcher);
     }
 
@@ -30,8 +26,6 @@ public abstract class RemovedIfOutboundSInk<O> extends MatchedOutboundHandler<O>
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg,
                                         final ChannelPromise promise) {
-
-        // skip to next handler
         ctx.write(msg, promise);
     }
 
@@ -39,8 +33,7 @@ public abstract class RemovedIfOutboundSInk<O> extends MatchedOutboundHandler<O>
     protected final void write0(final ChannelHandlerContext ctx,
                                 final O msg,
                                 final ChannelPromise promise) throws Exception {
-
-        boolean result;
+        final boolean result;
 
         try {
             result = this.write1(ctx, msg, promise);

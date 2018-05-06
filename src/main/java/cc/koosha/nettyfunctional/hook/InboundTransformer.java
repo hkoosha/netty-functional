@@ -4,7 +4,6 @@ import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
-import lombok.NonNull;
 
 
 public abstract class InboundTransformer<I> extends MatchedInboundHandler<I> {
@@ -13,11 +12,11 @@ public abstract class InboundTransformer<I> extends MatchedInboundHandler<I> {
         super();
     }
 
-    protected InboundTransformer(@NonNull final Class<?> clazz) {
+    protected InboundTransformer(final Class<?> clazz) {
         super(clazz);
     }
 
-    protected InboundTransformer(@NonNull final Matcher matcher) {
+    protected InboundTransformer(final Matcher matcher) {
         super(matcher);
     }
 

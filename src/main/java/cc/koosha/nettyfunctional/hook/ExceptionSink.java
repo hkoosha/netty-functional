@@ -2,7 +2,6 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 public abstract class ExceptionSink<T extends Throwable> extends ExceptionTransform<T> {
@@ -11,11 +10,11 @@ public abstract class ExceptionSink<T extends Throwable> extends ExceptionTransf
         super();
     }
 
-    public ExceptionSink(@NonNull final Class<?> type) {
+    public ExceptionSink(final Class<?> type) {
         super(type);
     }
 
-    public ExceptionSink(@NonNull final Matcher matcher) {
+    public ExceptionSink(final Matcher matcher) {
         super(matcher);
     }
 

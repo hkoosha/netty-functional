@@ -4,8 +4,8 @@ import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.TypeParameterMatcher;
-import lombok.NonNull;
-import lombok.val;
+
+import java.util.Objects;
 
 
 public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
@@ -13,23 +13,24 @@ public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
     private final Matcher matcher;
 
     public MatchedEventHandler() {
-        val typeMatcher = TypeParameterMatcher.find(
+        TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
                 this, MatchedEventHandler.class, "E");
         this.matcher = typeMatcher::match;
     }
 
-    public MatchedEventHandler(@NonNull final Class<?> type) {
+    public MatchedEventHandler(final Class<?> type) {
         this(MatcherUtil.classMatcher(type));
     }
 
-    public MatchedEventHandler(@NonNull final Matcher matcher) {
+    public MatchedEventHandler(final Matcher matcher) {
+        Objects.requireNonNull(matcher, "matcher");
         this.matcher = matcher;
     }
 
 
     @SuppressWarnings("unchecked")
     @Override
-    public final void userEventTriggered(@NonNull final ChannelHandlerContext ctx,
+    public final void userEventTriggered(final ChannelHandlerContext ctx,
                                          final Object evt) throws Exception {
         if (this.matches(evt) && this.accepts(ctx, (E) evt))
             this.event0(ctx, (E) evt);

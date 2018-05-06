@@ -4,8 +4,8 @@ import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.internal.TypeParameterMatcher;
-import lombok.NonNull;
-import lombok.val;
+
+import java.util.Objects;
 
 
 public abstract class MatchedExceptionHandler<X extends Throwable> extends ChannelDuplexHandler {
@@ -13,16 +13,17 @@ public abstract class MatchedExceptionHandler<X extends Throwable> extends Chann
     private final Matcher matcher;
 
     public MatchedExceptionHandler() {
-        val typeMatcher = TypeParameterMatcher.find(
+        TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
                 this, MatchedExceptionHandler.class, "X");
         this.matcher = typeMatcher::match;
     }
 
-    public MatchedExceptionHandler(@NonNull final Class<?> type) {
+    public MatchedExceptionHandler(final Class<?> type) {
         this(MatcherUtil.classMatcher(type));
     }
 
-    public MatchedExceptionHandler(@NonNull final Matcher matcher) {
+    public MatchedExceptionHandler(final Matcher matcher) {
+        Objects.requireNonNull(matcher, "matcher");
         this.matcher = matcher;
     }
 

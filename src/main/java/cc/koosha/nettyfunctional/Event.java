@@ -8,7 +8,8 @@ import cc.koosha.nettyfunctional.nettyfunctions.Read;
 import cc.koosha.nettyfunctional.nettyfunctions.ReadTransformer;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
+
+import java.util.Objects;
 
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -18,11 +19,11 @@ public final class Event {
 
     }
 
-    public static <T> ChannelHandler eHook(@NonNull final Matcher matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eHook(final Matcher matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return new EventHook<T>(matcher) {
-
             @Override
             public boolean isSharable() {
                 return true;
@@ -31,15 +32,15 @@ public final class Event {
             @Override
             protected void event1(final ChannelHandlerContext ctx,
                                   final T event) throws Exception {
-
                 handler.accept(ctx, event);
             }
         };
     }
 
-    public static <T> ChannelHandler eTransform(@NonNull final Matcher matcher,
-                                                @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler eTransform(final Matcher matcher,
+                                                final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return new EventTransformer<T>(matcher) {
 
             @Override
@@ -56,9 +57,10 @@ public final class Event {
         };
     }
 
-    public static <T> ChannelHandler eSink(@NonNull final Matcher matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eSink(final Matcher matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return new EventSink<T>(matcher) {
 
             @Override
@@ -75,9 +77,10 @@ public final class Event {
         };
     }
 
-    public static <T> ChannelHandler eRmHook(@NonNull final Matcher matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eRmHook(final Matcher matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return new RemovedEventHook<T>(matcher) {
 
             @Override
@@ -93,9 +96,10 @@ public final class Event {
         };
     }
 
-    public static <T> ChannelHandler eRmSink(@NonNull final Matcher matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eRmSink(final Matcher matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return new RemovedEventSink<T>(matcher) {
 
             @Override
@@ -111,9 +115,10 @@ public final class Event {
         };
     }
 
-    public static <T> ChannelHandler eRmTransform(@NonNull final Matcher matcher,
-                                                  @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler eRmTransform(final Matcher matcher,
+                                                  final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return new RemovedEventTransformer<T>(matcher) {
 
             @Override
@@ -129,9 +134,10 @@ public final class Event {
         };
     }
 
-    public static <T> ChannelHandler eRmSinkIf(@NonNull final Matcher matcher,
-                                               @NonNull final IfRead<T> handler) {
-
+    public static <T> ChannelHandler eRmSinkIf(final Matcher matcher,
+                                               final IfRead<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return new RemovedIfEventSink<T>(matcher) {
 
             @Override
@@ -150,45 +156,52 @@ public final class Event {
 
     // ________________________________________________________________________
 
-    public static <T> ChannelHandler eHook(@NonNull final Class<? extends T> matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eHook(final Class<? extends T> matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return eHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler eTransform(@NonNull final Class<? extends T> matcher,
-                                                @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler eTransform(final Class<? extends T> matcher,
+                                                final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return eTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler eSink(@NonNull final Class<? extends T> matcher,
-                                           @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eSink(final Class<? extends T> matcher,
+                                           final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return eSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler eRmHook(@NonNull final Class<? extends T> matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eRmHook(final Class<? extends T> matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return eRmHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler eRmSink(@NonNull final Class<? extends T> matcher,
-                                             @NonNull final Read<T> handler) {
-
+    public static <T> ChannelHandler eRmSink(final Class<? extends T> matcher,
+                                             final Read<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return eRmSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler eRmTransform(@NonNull final Class<? extends T> matcher,
-                                                  @NonNull final ReadTransformer<T> handler) {
-
+    public static <T> ChannelHandler eRmTransform(final Class<? extends T> matcher,
+                                                  final ReadTransformer<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return eRmTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler eRmSinkIf(@NonNull final Class<? extends T> matcher,
-                                               @NonNull final IfRead<T> handler) {
-
+    public static <T> ChannelHandler eRmSinkIf(final Class<? extends T> matcher,
+                                               final IfRead<T> handler) {
+        Objects.requireNonNull(matcher, "matcher");
+        Objects.requireNonNull(handler, "handler");
         return eRmSinkIf(MatcherUtil.classMatcher(matcher), handler);
     }
 

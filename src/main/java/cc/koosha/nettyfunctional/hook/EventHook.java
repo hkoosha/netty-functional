@@ -3,7 +3,6 @@ package cc.koosha.nettyfunctional.hook;
 import cc.koosha.nettyfunctional.matched.MatchedEventHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 public abstract class EventHook<T> extends MatchedEventHandler<T> {
@@ -12,11 +11,11 @@ public abstract class EventHook<T> extends MatchedEventHandler<T> {
         super();
     }
 
-    protected EventHook(@NonNull final Class<?> type) {
+    protected EventHook(final Class<?> type) {
         super(type);
     }
 
-    protected EventHook(@NonNull final Matcher matcher) {
+    protected EventHook(final Matcher matcher) {
         super(matcher);
     }
 

@@ -9,7 +9,8 @@ import cc.koosha.nettyfunctional.nettyfunctions.WriteTransformer;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import lombok.NonNull;
+
+import java.util.Objects;
 
 
 public final class Outbound {
@@ -18,11 +19,11 @@ public final class Outbound {
 
     }
 
-    public static <T> ChannelHandler oHook(@NonNull final Matcher matcher,
-                                           @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oHook(final Matcher matcher,
+                                           final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new OutboundHook<T>(matcher) {
-
             @Override
             public boolean isSharable() {
                 return true;
@@ -32,17 +33,16 @@ public final class Outbound {
             protected void write1(final ChannelHandlerContext ctx,
                                   final T event,
                                   final ChannelPromise promise) throws Exception {
-
                 handler.accept(ctx, event, promise);
             }
         };
     }
 
-    public static <T> ChannelHandler oTransform(@NonNull final Matcher matcher,
-                                                @NonNull final WriteTransformer<T> handler) {
-
+    public static <T> ChannelHandler oTransform(final Matcher matcher,
+                                                final WriteTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new OutboundTransformer<T>(matcher) {
-
             @Override
             public boolean isSharable() {
                 return true;
@@ -52,18 +52,17 @@ public final class Outbound {
             protected Object write1(final ChannelHandlerContext ctx,
                                     final T event,
                                     final ChannelPromise promise) throws Exception {
-
                 return handler.apply(ctx, event, promise);
             }
         };
 
     }
 
-    public static <T> ChannelHandler oSink(@NonNull final Matcher matcher,
-                                           @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oSink(final Matcher matcher,
+                                           final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new OutboundSink<T>(matcher) {
-
             @Override
             public boolean isSharable() {
                 return true;
@@ -73,17 +72,16 @@ public final class Outbound {
             protected void write2(final ChannelHandlerContext ctx,
                                   final T msg,
                                   final ChannelPromise promise) throws Exception {
-
                 handler.accept(ctx, msg, promise);
             }
         };
     }
 
-    public static <T> ChannelHandler oRmHook(@NonNull final Matcher matcher,
-                                             @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oRmHook(final Matcher matcher,
+                                             final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new RemovedOutboundHook<T>(matcher) {
-
             @Override
             public boolean isSharable() {
                 return true;
@@ -98,11 +96,11 @@ public final class Outbound {
         };
     }
 
-    public static <T> ChannelHandler oRmSink(@NonNull final Matcher matcher,
-                                             @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oRmSink(final Matcher matcher,
+                                             final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new RemovedOutboundSink<T>(matcher) {
-
             @Override
             public boolean isSharable() {
                 return true;
@@ -117,11 +115,11 @@ public final class Outbound {
         };
     }
 
-    public static <T> ChannelHandler oRmTransform(@NonNull final Matcher matcher,
-                                                  @NonNull final WriteTransformer<T> handler) {
-
+    public static <T> ChannelHandler oRmTransform(final Matcher matcher,
+                                                  final WriteTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return new RemovedOutboundTransformer<T>(matcher) {
-
             @Override
             public boolean isSharable() {
                 return true;
@@ -136,11 +134,11 @@ public final class Outbound {
         };
     }
 
-    public static <T> ChannelHandler oRmSinkIf(@NonNull final Matcher matcher,
-                                               @NonNull final IfWrite<T> handler) {
-
-        return new RemovedIfOutboundSInk<T>(matcher) {
-
+    public static <T> ChannelHandler oRmSinkIf(final Matcher matcher,
+                                               final IfWrite<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
+        return new RemovedIfOutboundSink<T>(matcher) {
             @Override
             public boolean isSharable() {
                 return true;
@@ -158,46 +156,53 @@ public final class Outbound {
 
     // ________________________________________________________________________
 
-    public static <T> ChannelHandler oHook(@NonNull final Class<? extends T> matcher,
-                                           @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oHook(final Class<? extends T> matcher,
+                                           final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return oHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler oTransform(@NonNull final Class<? extends T> matcher,
-                                                @NonNull final WriteTransformer<T> handler) {
-
+    public static <T> ChannelHandler oTransform(final Class<? extends T> matcher,
+                                                final WriteTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return oTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
 
-    public static <T> ChannelHandler oSink(@NonNull final Class<? extends T> matcher,
-                                           @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oSink(final Class<? extends T> matcher,
+                                           final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return oSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler oRmHook(@NonNull final Class<? extends T> matcher,
-                                             @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oRmHook(final Class<? extends T> matcher,
+                                             final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return oRmHook(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler oRmSink(@NonNull final Class<? extends T> matcher,
-                                             @NonNull final Write<T> handler) {
-
+    public static <T> ChannelHandler oRmSink(final Class<? extends T> matcher,
+                                             final Write<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return oRmSink(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler oRmTransform(@NonNull final Class<? extends T> matcher,
-                                                  @NonNull final WriteTransformer<T> handler) {
-
+    public static <T> ChannelHandler oRmTransform(final Class<? extends T> matcher,
+                                                  final WriteTransformer<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return oRmTransform(MatcherUtil.classMatcher(matcher), handler);
     }
 
-    public static <T> ChannelHandler oRmSinkIf(@NonNull final Class<? extends T> matcher,
-                                               @NonNull final IfWrite<T> handler) {
-
+    public static <T> ChannelHandler oRmSinkIf(final Class<? extends T> matcher,
+                                               final IfWrite<T> handler) {
+        Objects.requireNonNull(matcher);
+        Objects.requireNonNull(handler);
         return oRmSinkIf(MatcherUtil.classMatcher(matcher), handler);
     }
 

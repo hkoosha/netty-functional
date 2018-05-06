@@ -2,7 +2,6 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 public abstract class InboundSink<I> extends InboundTransformer<I> {
@@ -11,11 +10,11 @@ public abstract class InboundSink<I> extends InboundTransformer<I> {
         super();
     }
 
-    public InboundSink(@NonNull final Class<?> clazz) {
+    public InboundSink(final Class<?> clazz) {
         super(clazz);
     }
 
-    public InboundSink(@NonNull final Matcher matcher) {
+    public InboundSink(final Matcher matcher) {
         super(matcher);
     }
 

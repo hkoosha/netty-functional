@@ -4,21 +4,19 @@ import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
-import lombok.NonNull;
 
 
 public abstract class RemovedInboundTransformer<I> extends MatchedInboundHandler<I> {
 
     protected RemovedInboundTransformer() {
+        super();
     }
 
-    protected RemovedInboundTransformer(@NonNull final Class<?> clazz) {
-
+    protected RemovedInboundTransformer(final Class<?> clazz) {
         super(clazz);
     }
 
-    protected RemovedInboundTransformer(@NonNull final Matcher matcher) {
-
+    protected RemovedInboundTransformer(final Matcher matcher) {
         super(matcher);
     }
 
@@ -26,14 +24,12 @@ public abstract class RemovedInboundTransformer<I> extends MatchedInboundHandler
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg) {
-
         ctx.fireChannelRead(msg);
     }
 
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
                                final I msg) throws Exception {
-
         Object result;
 
         try {
@@ -43,7 +39,7 @@ public abstract class RemovedInboundTransformer<I> extends MatchedInboundHandler
             ReferenceCountUtil.release(msg);
         }
 
-        if(result != null) {
+        if (result != null) {
             ctx.pipeline().remove(this);
             ctx.fireChannelRead(result);
         }

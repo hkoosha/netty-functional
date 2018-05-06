@@ -3,7 +3,6 @@ package cc.koosha.nettyfunctional.hook;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import lombok.NonNull;
 
 
 public abstract class OutboundSink<O> extends OutboundTransformer<O> {
@@ -12,11 +11,11 @@ public abstract class OutboundSink<O> extends OutboundTransformer<O> {
         super();
     }
 
-    public OutboundSink(@NonNull final Class<?> clazz) {
+    public OutboundSink(final Class<?> clazz) {
         super(clazz);
     }
 
-    public OutboundSink(@NonNull final Matcher matcher) {
+    public OutboundSink(final Matcher matcher) {
         super(matcher);
     }
 

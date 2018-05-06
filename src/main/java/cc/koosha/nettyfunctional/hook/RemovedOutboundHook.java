@@ -4,21 +4,19 @@ import cc.koosha.nettyfunctional.matched.MatchedOutboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import lombok.NonNull;
 
 
 public abstract class RemovedOutboundHook<O> extends MatchedOutboundHandler<O> {
 
     protected RemovedOutboundHook() {
+        super();
     }
 
-    protected RemovedOutboundHook(@NonNull final Class<?> clazz) {
-
+    protected RemovedOutboundHook(final Class<?> clazz) {
         super(clazz);
     }
 
-    protected RemovedOutboundHook(@NonNull final Matcher matcher) {
-
+    protected RemovedOutboundHook(final Matcher matcher) {
         super(matcher);
     }
 
@@ -27,8 +25,6 @@ public abstract class RemovedOutboundHook<O> extends MatchedOutboundHandler<O> {
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg,
                                         final ChannelPromise promise) {
-
-        // skip to next handler
         ctx.write(msg, promise);
     }
 
@@ -36,7 +32,6 @@ public abstract class RemovedOutboundHook<O> extends MatchedOutboundHandler<O> {
     protected final void write0(final ChannelHandlerContext ctx,
                                 final O msg,
                                 final ChannelPromise promise) throws Exception {
-
         this.write1(ctx, msg, promise);
         ctx.pipeline().remove(this);
         ctx.write(msg, promise);

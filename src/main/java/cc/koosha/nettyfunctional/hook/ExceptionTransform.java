@@ -3,7 +3,6 @@ package cc.koosha.nettyfunctional.hook;
 import cc.koosha.nettyfunctional.matched.MatchedExceptionHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 public abstract class ExceptionTransform<X extends Throwable> extends MatchedExceptionHandler<X> {
@@ -12,11 +11,11 @@ public abstract class ExceptionTransform<X extends Throwable> extends MatchedExc
         super();
     }
 
-    protected ExceptionTransform(@NonNull final Class<?> type) {
+    protected ExceptionTransform(final Class<?> type) {
         super(type);
     }
 
-    protected ExceptionTransform(@NonNull final Matcher matcher) {
+    protected ExceptionTransform(final Matcher matcher) {
         super(matcher);
     }
 

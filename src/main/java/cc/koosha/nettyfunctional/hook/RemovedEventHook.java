@@ -4,7 +4,6 @@ import cc.koosha.nettyfunctional.matched.MatchedEventHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 @ChannelHandler.Sharable
@@ -14,11 +13,11 @@ public abstract class RemovedEventHook<E> extends MatchedEventHandler<E> {
         super();
     }
 
-    protected RemovedEventHook(@NonNull final Class<?> type) {
+    protected RemovedEventHook(final Class<?> type) {
         super(type);
     }
 
-    protected RemovedEventHook(@NonNull final Matcher matcher) {
+    protected RemovedEventHook(final Matcher matcher) {
         super(matcher);
     }
 

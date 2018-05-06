@@ -4,23 +4,19 @@ import cc.koosha.nettyfunctional.matched.MatchedInboundHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
-import lombok.NonNull;
 
 
 public abstract class RemovedIfInboundSink<I> extends MatchedInboundHandler<I> {
 
     protected RemovedIfInboundSink() {
-
         super();
     }
 
-    protected RemovedIfInboundSink(@NonNull final Class<?> type) {
-
+    protected RemovedIfInboundSink(final Class<?> type) {
         super(type);
     }
 
-    protected RemovedIfInboundSink(@NonNull final Matcher matcher) {
-
+    protected RemovedIfInboundSink(final Matcher matcher) {
         super(matcher);
     }
 
@@ -28,15 +24,13 @@ public abstract class RemovedIfInboundSink<I> extends MatchedInboundHandler<I> {
     @Override
     protected final void unsupportedMsg(final ChannelHandlerContext ctx,
                                         final Object msg) {
-
         ctx.fireChannelRead(msg);
     }
 
     @Override
     protected final void read0(final ChannelHandlerContext ctx,
                                final I msg) throws Exception {
-
-        boolean result;
+        final boolean result;
 
         try {
             result = this.read1(ctx, msg);
@@ -45,7 +39,7 @@ public abstract class RemovedIfInboundSink<I> extends MatchedInboundHandler<I> {
             ReferenceCountUtil.release(msg);
         }
 
-        if(result)
+        if (result)
             ctx.pipeline().remove(this);
     }
 

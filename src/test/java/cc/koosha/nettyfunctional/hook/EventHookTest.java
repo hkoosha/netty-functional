@@ -2,12 +2,11 @@ package cc.koosha.nettyfunctional.hook;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
-import lombok.val;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 
 public class EventHookTest {
@@ -15,7 +14,7 @@ public class EventHookTest {
     @Test
     public void testUnsupportedEvent() throws Exception {
 
-        val h0 = new EventHook<AtomicInteger>(AtomicInteger.class) {
+        EventHook<AtomicInteger> h0 = new EventHook<AtomicInteger>(AtomicInteger.class) {
             @Override
             protected void event1(ChannelHandlerContext ctx,
                                   AtomicInteger event) throws Exception {
@@ -24,7 +23,7 @@ public class EventHookTest {
             }
         };
 
-        val em = new EmbeddedChannel(h0);
+        EmbeddedChannel em = new EmbeddedChannel(h0);
 
         em.pipeline().fireUserEventTriggered("do not touch me");
     }
@@ -36,7 +35,7 @@ public class EventHookTest {
         final int init = 22;
         final AtomicInteger read = new AtomicInteger(-1);
 
-        val h0 = new EventHook<AtomicInteger>(AtomicInteger.class) {
+        EventHook<AtomicInteger> h0 = new EventHook<AtomicInteger>(AtomicInteger.class) {
             @Override
             protected void event1(ChannelHandlerContext ctx,
                                   AtomicInteger event) throws Exception {
@@ -45,7 +44,7 @@ public class EventHookTest {
             }
         };
 
-        val h1 = new EventHook<String>(String.class) {
+        EventHook<String> h1 = new EventHook<String>(String.class) {
             @Override
             protected void event1(ChannelHandlerContext ctx,
                                   String msg) throws Exception {
@@ -54,7 +53,7 @@ public class EventHookTest {
             }
         };
 
-        val h2 = new EventHook<AtomicInteger>(AtomicInteger.class) {
+        EventHook<AtomicInteger> h2 = new EventHook<AtomicInteger>(AtomicInteger.class) {
 
             @Override
             protected void event1(ChannelHandlerContext ctx,
@@ -64,7 +63,7 @@ public class EventHookTest {
             }
         };
 
-        val em = new EmbeddedChannel(h0, h1, h2);
+        EmbeddedChannel em = new EmbeddedChannel(h0, h1, h2);
 
         em.pipeline().fireUserEventTriggered(new AtomicInteger(init));
         assertEquals(read.get(), init + add);

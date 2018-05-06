@@ -5,7 +5,6 @@ import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.ReferenceCountUtil;
-import lombok.NonNull;
 
 
 public abstract class OutboundTransformer<O> extends MatchedOutboundHandler<O> {
@@ -14,11 +13,11 @@ public abstract class OutboundTransformer<O> extends MatchedOutboundHandler<O> {
         super();
     }
 
-    protected OutboundTransformer(@NonNull final Class<?> clazz) {
+    protected OutboundTransformer(final Class<?> clazz) {
         super(clazz);
     }
 
-    protected OutboundTransformer(@NonNull final Matcher matcher) {
+    protected OutboundTransformer(final Matcher matcher) {
         super(matcher);
     }
 

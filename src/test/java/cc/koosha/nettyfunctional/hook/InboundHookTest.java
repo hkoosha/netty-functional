@@ -2,12 +2,11 @@ package cc.koosha.nettyfunctional.hook;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
-import lombok.val;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 
 public class InboundHookTest {
@@ -15,7 +14,7 @@ public class InboundHookTest {
     @Test
     public void testUnsupportedMsg() throws Exception {
 
-        val h0 = new InboundHook<AtomicInteger>(AtomicInteger.class) {
+        InboundHook<AtomicInteger> h0 = new InboundHook<AtomicInteger>(AtomicInteger.class) {
             @Override
             protected void read1(ChannelHandlerContext ctx,
                                  AtomicInteger event) throws Exception {
@@ -24,7 +23,7 @@ public class InboundHookTest {
             }
         };
 
-        val em = new EmbeddedChannel(h0);
+        EmbeddedChannel em = new EmbeddedChannel(h0);
 
         assert em.writeInbound("do not touch me");
         final String read = em.readInbound();
@@ -37,21 +36,21 @@ public class InboundHookTest {
         final int add = 99;
         final int init = 22;
 
-        val h0 = new InboundHook<AtomicInteger>(AtomicInteger.class) {
+        InboundHook<AtomicInteger> h0 = new InboundHook<AtomicInteger>(AtomicInteger.class) {
             @Override
             protected void read1(ChannelHandlerContext ctx, AtomicInteger event) throws Exception {
                 event.addAndGet(add);
             }
         };
 
-        val h1 = new InboundHook<String>(String.class) {
+        InboundHook<String> h1 = new InboundHook<String>(String.class) {
             @Override
             protected void read1(ChannelHandlerContext ctx, String msg) throws Exception {
                 throw new UnsupportedOperationException("should not reach here");
             }
         };
 
-        val em = new EmbeddedChannel(h0, h1);
+        EmbeddedChannel em = new EmbeddedChannel(h0, h1);
 
         assert em.writeInbound(new AtomicInteger(init));
         final AtomicInteger read = em.readInbound();

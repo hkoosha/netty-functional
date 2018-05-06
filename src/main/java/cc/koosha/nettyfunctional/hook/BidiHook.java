@@ -4,7 +4,6 @@ import cc.koosha.nettyfunctional.matched.MatchedBidiHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import lombok.NonNull;
 
 
 @SuppressWarnings("unused")
@@ -14,13 +13,13 @@ public abstract class BidiHook<I, O> extends MatchedBidiHandler<I, O> {
         super();
     }
 
-    protected BidiHook(@NonNull final Class<?> iType,
-                       @NonNull final Class<?> oType) {
+    protected BidiHook(final Class<?> iType,
+                       final Class<?> oType) {
         super(iType, oType);
     }
 
-    protected BidiHook(@NonNull final Matcher iMatcher,
-                       @NonNull final Matcher oMatcher) {
+    protected BidiHook(final Matcher iMatcher,
+                       final Matcher oMatcher) {
         super(iMatcher, oMatcher);
     }
 

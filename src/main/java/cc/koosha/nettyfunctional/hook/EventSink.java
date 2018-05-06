@@ -2,7 +2,6 @@ package cc.koosha.nettyfunctional.hook;
 
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 public abstract class EventSink<E> extends EventTransformer<E> {
@@ -11,11 +10,11 @@ public abstract class EventSink<E> extends EventTransformer<E> {
         super();
     }
 
-    public EventSink(@NonNull final Class<?> type) {
+    public EventSink(final Class<?> type) {
         super(type);
     }
 
-    public EventSink(@NonNull final Matcher matcher) {
+    public EventSink(final Matcher matcher) {
         super(matcher);
     }
 

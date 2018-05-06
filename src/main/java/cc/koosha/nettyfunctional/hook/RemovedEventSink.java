@@ -3,7 +3,6 @@ package cc.koosha.nettyfunctional.hook;
 import cc.koosha.nettyfunctional.matched.MatchedEventHandler;
 import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
-import lombok.NonNull;
 
 
 public abstract class RemovedEventSink<E> extends MatchedEventHandler<E> {
@@ -12,11 +11,11 @@ public abstract class RemovedEventSink<E> extends MatchedEventHandler<E> {
         super();
     }
 
-    protected RemovedEventSink(@NonNull final Class<?> type) {
+    protected RemovedEventSink(final Class<?> type) {
         super(type);
     }
 
-    protected RemovedEventSink(@NonNull final Matcher matcher) {
+    protected RemovedEventSink(final Matcher matcher) {
         super(matcher);
     }
 

@@ -5,7 +5,6 @@ import cc.koosha.nettyfunctional.nettyfunctions.Matcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.ReferenceCountUtil;
-import lombok.NonNull;
 
 
 public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
@@ -14,13 +13,13 @@ public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
         super();
     }
 
-    protected BidiTransform(@NonNull final Class<?> iType,
-                            @NonNull final Class<?> oType) {
+    protected BidiTransform(final Class<?> iType,
+                            final Class<?> oType) {
         super(iType, oType);
     }
 
-    protected BidiTransform(@NonNull final Matcher iMatcher,
-                            @NonNull final Matcher oMatcher) {
+    protected BidiTransform(final Matcher iMatcher,
+                            final Matcher oMatcher) {
         super(iMatcher, oMatcher);
     }
 
@@ -43,7 +42,7 @@ public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
             ReferenceCountUtil.release(msg);
         }
 
-        if(result != null)
+        if (result != null)
             ctx.fireChannelRead(result);
     }
 
@@ -68,7 +67,7 @@ public abstract class BidiTransform<I, O> extends MatchedBidiHandler<I, O> {
             ReferenceCountUtil.release(msg);
         }
 
-        if(result != null)
+        if (result != null)
             ctx.write(result, promise);
     }
 
