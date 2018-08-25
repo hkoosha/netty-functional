@@ -1,8 +1,8 @@
 package cc.koosha.nettyfunctional.checkedfunction;
 
 
-public interface Action {
+public interface SupplierC<T> {
 
-    void exec();
+    T get();
 
 }

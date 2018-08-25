@@ -5,16 +5,18 @@ import cc.koosha.nettyfunctional.checkedfunction.ConsumerC;
 import cc.koosha.nettyfunctional.log.NettyFuncLogger;
 import cc.koosha.nettyfunctional.log.SerrLogger;
 import cc.koosha.nettyfunctional.log.Slf4jNettyFuncLogger;
+import cc.koosha.nettyfunctional.nettyfunctions.Consumer2;
+import cc.koosha.nettyfunctional.nettyfunctions.Supplier2;
 import cc.koosha.nettyfunctional.nettyfunctions.Write;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.util.ReferenceCountUtil;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.net.SocketAddress;
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 
 @SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
@@ -39,10 +41,21 @@ public final class NettyFunc {
         }
     }
 
-    private static final ActionC DO_NOTHING = () -> {
+    private static final ActionC DO_NOTHING = new ActionC() {
+        @Override
+        public void exec() throws Exception {
+        }
     };
-    private static final Consumer<Throwable> THROW_LOG_AWAY = throwable -> logger.warn("error", throwable);
-    private static final ConsumerC<Channel> THROW_CHANNEL_AWAY = channel -> {
+    private static final Consumer2<Throwable> THROW_LOG_AWAY = new Consumer2<Throwable>() {
+        @Override
+        public void accept(Throwable throwable) {
+            logger.warn("error", throwable);
+        }
+    };
+    private static final ConsumerC<Channel> THROW_CHANNEL_AWAY = new ConsumerC<Channel>() {
+        @Override
+        public void accept(Channel channel) throws Exception {
+        }
     };
 
     @Sharable
@@ -97,19 +110,19 @@ public final class NettyFunc {
 
     // _________________________________________________________________________
 
-    public static ChannelFuture safe(Channel channel, Supplier<ChannelFuture> c) {
+    public static ChannelFuture safe(Channel channel, Supplier2<ChannelFuture> c) {
         return safe(channel, c, DO_NOTHING, THROW_LOG_AWAY);
     }
 
-    public static ChannelFuture safe(Channel channel, Supplier<ChannelFuture> c, ActionC listener) {
+    public static ChannelFuture safe(Channel channel, Supplier2<ChannelFuture> c, ActionC listener) {
         return safe(channel, c, listener, THROW_LOG_AWAY);
     }
 
-    public static ChannelFuture safer(Channel channel, Supplier<ChannelFuture> c, Consumer<Throwable> onErr) {
+    public static ChannelFuture safer(Channel channel, Supplier2<ChannelFuture> c, Consumer2<Throwable> onErr) {
         return safe(channel, c, DO_NOTHING, onErr);
     }
 
-    public static ChannelFuture safe(Channel channel, Supplier<ChannelFuture> cf, ActionC listener, Consumer<Throwable> onErr) {
+    public static ChannelFuture safe(final Channel channel, Supplier2<ChannelFuture> cf, final ActionC listener, final Consumer2<Throwable> onErr) {
         if (channel == null)
             throw new NullPointerException("channel");
         if (cf == null)
@@ -123,28 +136,31 @@ public final class NettyFunc {
         try {
             cf1 = cf.get();
             final ChannelFuture channelFuture = cf1;
-            cf1.addListener(f -> {
-                try {
-                    if (!f.isSuccess()) {
-                        close(channel);
-                        close(channelFuture);
-                        onErr.accept(f.cause());
-                    }
-                    else {
-                        try {
-                            listener.exec();
-                        }
-                        catch (Exception e) {
+            cf1.addListener(new GenericFutureListener<Future<? super Void>>() {
+                @Override
+                public void operationComplete(Future<? super Void> f) throws Exception {
+                    try {
+                        if (!f.isSuccess()) {
                             close(channel);
                             close(channelFuture);
-                            onErr.accept(e);
+                            onErr.accept(f.cause());
+                        }
+                        else {
+                            try {
+                                listener.exec();
+                            }
+                            catch (Exception e) {
+                                close(channel);
+                                close(channelFuture);
+                                onErr.accept(e);
+                            }
                         }
                     }
-                }
-                catch (Exception e) {
-                    close(channel);
-                    close(channelFuture);
-                    onErr.accept(e);
+                    catch (Exception e) {
+                        close(channel);
+                        close(channelFuture);
+                        onErr.accept(e);
+                    }
                 }
             });
         }
@@ -165,11 +181,11 @@ public final class NettyFunc {
         return write(c.channel(), payload, listener);
     }
 
-    public static ChannelFuture writer(ChannelHandlerContext c, Object payload, Consumer<Throwable> onErr) {
+    public static ChannelFuture writer(ChannelHandlerContext c, Object payload, Consumer2<Throwable> onErr) {
         return writer(c.channel(), payload, onErr);
     }
 
-    public static ChannelFuture write(ChannelHandlerContext c, Object payload, ActionC listener, Consumer<Throwable> onErr) {
+    public static ChannelFuture write(ChannelHandlerContext c, Object payload, ActionC listener, Consumer2<Throwable> onErr) {
         return write(c.channel(), payload, listener, onErr);
     }
 
@@ -182,15 +198,23 @@ public final class NettyFunc {
         return write(c, payload, listener, THROW_LOG_AWAY);
     }
 
-    public static ChannelFuture writer(Channel c, Object payload, Consumer<Throwable> onErr) {
+    public static ChannelFuture writer(Channel c, Object payload, Consumer2<Throwable> onErr) {
         return write(c, payload, DO_NOTHING, onErr);
     }
 
-    public static ChannelFuture write(Channel c, Object payload, ActionC listener, Consumer<Throwable> onErr) {
-        return safe(c, () -> c.writeAndFlush(payload), listener, throwable -> {
-            if (ReferenceCountUtil.refCnt(payload) > 0)
-                ReferenceCountUtil.release(payload);
-            onErr.accept(throwable);
+    public static ChannelFuture write(final Channel c, final Object payload, ActionC listener, final Consumer2<Throwable> onErr) {
+        return safe(c, new Supplier2<ChannelFuture>() {
+            @Override
+            public ChannelFuture get() {
+                return c.writeAndFlush(payload);
+            }
+        }, listener, new Consumer2<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                if (ReferenceCountUtil.refCnt(payload) > 0)
+                    ReferenceCountUtil.release(payload);
+                onErr.accept(throwable);
+            }
         });
     }
 
@@ -203,19 +227,35 @@ public final class NettyFunc {
         return write(bootstrap, payload, listener, THROW_LOG_AWAY);
     }
 
-    public static ChannelFuture writer(Bootstrap bootstrap, Object payload, Consumer<Throwable> onErr) {
+    public static ChannelFuture writer(Bootstrap bootstrap, Object payload, Consumer2<Throwable> onErr) {
         return write(bootstrap, payload, THROW_CHANNEL_AWAY, onErr);
     }
 
-    public static ChannelFuture write(Bootstrap bootstrap, Object payload, ConsumerC<Channel> listener, Consumer<Throwable> onErr) {
-        return connect(bootstrap, channel -> write(channel, payload, () -> listener.accept(channel), throwable -> {
-            if (ReferenceCountUtil.refCnt(payload) > 0)
-                ReferenceCountUtil.release(payload);
-            onErr.accept(throwable);
-        }), throwable -> {
-            if (ReferenceCountUtil.refCnt(payload) > 0)
-                ReferenceCountUtil.release(payload);
-            onErr.accept(throwable);
+    public static ChannelFuture write(Bootstrap bootstrap, final Object payload, final ConsumerC<Channel> listener, final Consumer2<Throwable> onErr) {
+        return connect(bootstrap, new ConsumerC<Channel>() {
+            @Override
+            public void accept(final Channel channel) throws Exception {
+                write(channel, payload, new ActionC() {
+                    @Override
+                    public void exec() throws Exception {
+                        listener.accept(channel);
+                    }
+                }, new Consumer2<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        if (ReferenceCountUtil.refCnt(payload) > 0)
+                            ReferenceCountUtil.release(payload);
+                        onErr.accept(throwable);
+                    }
+                });
+            }
+        }, new Consumer2<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                if (ReferenceCountUtil.refCnt(payload) > 0)
+                    ReferenceCountUtil.release(payload);
+                onErr.accept(throwable);
+            }
         });
     }
 
@@ -228,11 +268,11 @@ public final class NettyFunc {
         return connect(bootstrap, listener, THROW_LOG_AWAY);
     }
 
-    public static ChannelFuture connecter(Bootstrap bootstrap, Consumer<Throwable> onErr) {
+    public static ChannelFuture connecter(Bootstrap bootstrap, Consumer2<Throwable> onErr) {
         return connect(bootstrap, THROW_CHANNEL_AWAY, onErr);
     }
 
-    public static ChannelFuture connect(Bootstrap bootstrap, ConsumerC<Channel> listener, Consumer<Throwable> onErr) {
+    public static ChannelFuture connect(Bootstrap bootstrap, final ConsumerC<Channel> listener, final Consumer2<Throwable> onErr) {
         if (listener == null)
             throw new NullPointerException("listener (onConnect)");
         if (onErr == null)
@@ -242,25 +282,28 @@ public final class NettyFunc {
         try {
             cf = bootstrap.connect();
             final ChannelFuture channelFuture = cf;
-            cf.addListener(f -> {
-                try {
-                    if (!f.isSuccess()) {
-                        close(channelFuture);
-                        onErr.accept(f.cause());
-                    }
-                    else {
-                        try {
-                            listener.accept(channelFuture.channel());
-                        }
-                        catch (Exception e) {
+            cf.addListener(new GenericFutureListener<Future<? super Void>>() {
+                @Override
+                public void operationComplete(Future<? super Void> f) throws Exception {
+                    try {
+                        if (!f.isSuccess()) {
                             close(channelFuture);
-                            onErr.accept(e);
+                            onErr.accept(f.cause());
+                        }
+                        else {
+                            try {
+                                listener.accept(channelFuture.channel());
+                            }
+                            catch (Exception e) {
+                                close(channelFuture);
+                                onErr.accept(e);
+                            }
                         }
                     }
-                }
-                catch (Exception e) {
-                    close(channelFuture);
-                    onErr.accept(e);
+                    catch (Exception e) {
+                        close(channelFuture);
+                        onErr.accept(e);
+                    }
                 }
             });
         }
@@ -307,9 +350,18 @@ public final class NettyFunc {
         return false;
     }
 
-    public static boolean close(ChannelHandlerContext ctx, Object payload) {
-        write(ctx, payload, ctx::close, err ->
-                logger.warn("could not write final payload to channel", err));
+    public static boolean close(final ChannelHandlerContext ctx, Object payload) {
+        write(ctx, payload, new ActionC() {
+            @Override
+            public void exec() throws Exception {
+                ctx.close();
+            }
+        }, new Consumer2<Throwable>() {
+            @Override
+            public void accept(Throwable err) {
+                logger.warn("could not write final payload to channel", err);
+            }
+        });
         return false;
     }
 

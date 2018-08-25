@@ -13,9 +13,14 @@ public abstract class MatchedExceptionHandler<X extends Throwable> extends Chann
     private final Matcher matcher;
 
     public MatchedExceptionHandler() {
-        TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
+        final TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
                 this, MatchedExceptionHandler.class, "X");
-        this.matcher = typeMatcher::match;
+        this.matcher = new Matcher() {
+            @Override
+            public Boolean apply(Object msg) {
+                return typeMatcher.match(msg);
+            }
+        };
     }
 
     public MatchedExceptionHandler(final Class<?> type) {

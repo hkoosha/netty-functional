@@ -12,7 +12,12 @@ public enum MatcherUtil {
 
     public static Matcher classMatcher(final Class<?> clazz) {
         Objects.requireNonNull(clazz, "clazz (type)");
-        return object -> clazz.isAssignableFrom(object.getClass());
+        return new Matcher() {
+            @Override
+            public Boolean apply(Object object) {
+                return clazz.isAssignableFrom(object.getClass());
+            }
+        };
     }
 
     static void release(Object object) {

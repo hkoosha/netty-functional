@@ -13,9 +13,14 @@ public abstract class MatchedEventHandler<E> extends ChannelDuplexHandler {
     private final Matcher matcher;
 
     public MatchedEventHandler() {
-        TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
+        final TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
                 this, MatchedEventHandler.class, "E");
-        this.matcher = typeMatcher::match;
+        this.matcher = new Matcher() {
+            @Override
+            public Boolean apply(Object msg) {
+                return typeMatcher.match(msg);
+            }
+        };
     }
 
     public MatchedEventHandler(final Class<?> type) {

@@ -16,9 +16,14 @@ public abstract class MatchedInboundHandler<I> extends ChannelInboundHandlerAdap
     private final Matcher matcher;
 
     protected MatchedInboundHandler() {
-        TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
+        final TypeParameterMatcher typeMatcher = TypeParameterMatcher.find(
                 this, MatchedInboundHandler.class, "I");
-        this.matcher = typeMatcher::match;
+        this.matcher = new Matcher() {
+            @Override
+            public Boolean apply(Object msg) {
+                return typeMatcher.match(msg);
+            }
+        };
     }
 
     protected MatchedInboundHandler(final Class<?> type) {

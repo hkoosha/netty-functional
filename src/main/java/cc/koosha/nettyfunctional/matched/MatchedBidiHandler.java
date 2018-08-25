@@ -24,8 +24,18 @@ public abstract class MatchedBidiHandler<I, O> extends ChannelDuplexHandler {
         final TypeParameterMatcher oTypeMatcher = TypeParameterMatcher.find(
                 this, MatchedBidiHandler.class, "O");
 
-        this.iMatcher = iTypeMatcher::match;
-        this.oMatcher = oTypeMatcher::match;
+        this.iMatcher = new Matcher() {
+            @Override
+            public Boolean apply(Object msg) {
+                return iTypeMatcher.match(msg);
+            }
+        };
+        this.oMatcher = new Matcher() {
+            @Override
+            public Boolean apply(Object msg) {
+                return oTypeMatcher.match(msg);
+            }
+        };
     }
 
     protected MatchedBidiHandler(final Class<?> iType,

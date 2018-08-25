@@ -3,12 +3,16 @@ package cc.koosha.nettyfunctional.nettyfunctions;
 import cc.koosha.nettyfunctional.checkedfunction.FunctionC;
 
 
-@FunctionalInterface
 public interface Matcher extends FunctionC<Object, Boolean> {
 
     @Override
     Boolean apply(Object object);
 
-    Matcher ALWAYS = object -> true;
+    Matcher ALWAYS = new Matcher() {
+        @Override
+        public Boolean apply(Object object) {
+            return true;
+        }
+    };
 
 }
