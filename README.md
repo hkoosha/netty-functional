@@ -1,7 +1,19 @@
 This library allows you to create netty handlers in a functional manne instead 
-of implementing a full fledged channel handler or extending an adapter.
-[![Build Status](https://travis-ci.org/hkoosha/netty-functional.svg?branch=master)](https://travis-ci.org/hkoosha/netty-functional)
+of implementing a full fledged channel handler or extending an adapter. [![Build Status](https://travis-ci.org/hkoosha/netty-functional.svg?branch=master)](https://travis-ci.org/hkoosha/netty-functional)
 
+## Maven
+
+```xml
+<dependency>
+    <groupId>net.pargar.nettyfunctional</groupId>
+    <artifactId>nettyfunctional</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+```groovy
+compile group: 'net.pargar.nettyfunctional', name: 'nettyfunctional', version: '1.0.0'
+```
 
 ### How to Build
 
