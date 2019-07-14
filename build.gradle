@@ -1,12 +1,30 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'distribution'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
-group 'cc.koosha'
-version '1.0.0'
+def isCiServer = System.getenv().containsKey("IS_CI_ENV")
 
-sourceCompatibility = 1.7
+project.ext {
+    my_group = 'net.parget.nettyfunctional'
+    my_artifact = 'nettyfunctional'
+    my_version = '1.0.0'
+    my_name = 'Netty Functional'
+    my_real_name = 'Koosha Hosseiny'
+    my_email = 'koosha.hosseiny@gmail.com'
+    my_description = 'Functional (lambda) for Netty, implement your handlers as a simple lambda defination.'
+    my_url = 'https://github.com/hkoosha/netty-functional'
+    my_url_issues = 'https://github.com/hkoosha/netty-functional/issues'
+    my_git = 'scm:git:git://github.com/hkoosha/netty-functional.git'
+    my_git_conn = 'scm:git:git@github.com:hkoosha/netty-functional.git'
+    my_org = 'net.pargar'
+    my_org_url = 'https://pargar.net'
+}
+
+group ext.my_group
+version ext.my_version
+
+sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
@@ -23,19 +41,22 @@ test {
 }
 
 idea {
-  module{
-    downloadJavadoc = true
-    downloadSources = true
-  }
+    module {
+        outputDir = file('build')
+        inheritOutputDirs = true
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 dependencies {
-    compileOnly 'org.slf4j:slf4j-api:1.7.25'
+    compileOnly 'org.slf4j:slf4j-api:1.7.26'
 
-    compile 'io.netty:netty-handler:4.1.33.Final'
+    compile 'io.netty:netty-handler:4.1.37.Final'
 
     testCompile 'org.testng:testng:6.14.3'
-    testCompile 'org.mockito:mockito-core:2.24.5'
+    testCompile 'org.mockito:mockito-core:3.0.0'
+    testCompile 'org.slf4j:slf4j-simple:1.7.26'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -48,10 +69,10 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-task allJar(type: Jar) {
+task allJar(type: Jar, dependsOn: [sourcesJar, javadocJar, jar]) {
     classifier = 'everything'
     from sourceSets.main.allSource
-    from javadoc.destinationDir 
+    from javadoc.destinationDir
     baseName = 'allJar'
     from configurations.archives.artifacts.files.collect {
         zipTree(it)
@@ -61,16 +82,68 @@ task allJar(type: Jar) {
 artifacts {
     archives sourcesJar
     archives javadocJar
-//    archives allJar
+    // archives allJar
 }
 
-publishing {                                                                    
-    publications {                                                              
-        mavenJava(MavenPublication) {                                           
-            from components.java                                                
-            artifact sourcesJar {                                               
-                classifier "sources"                                            
-            }                                                                   
-        }                                                                       
-    }                                                                           
-}  
+signing {
+    sign configurations.archives
+}
+
+publishing {
+    publications {
+        sonata(MavenPublication) {
+            pom {
+                description = project.ext.my_description
+                name = project.ext.my_name
+                url = project.ext.my_url
+                organization {
+                    name = project.ext.my_org
+                    url = project.ext.my_org_url
+                }
+                issueManagement {
+                    system = 'GitHub'
+                    url = project.ext.my_url_issues
+                }
+                licenses {
+                    license {
+                        name = 'GNU General Public License'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    }
+                }
+                scm {
+                    connection = project.ext.my_git
+                    developerConnection = project.ext.my_git_conn
+                    url = project.ext.my_url
+                }
+                developers {
+                    developer {
+                        url = project.ext.my_org_url
+                        name = project.ext.my_real_name
+                        email = project.ext.my_email
+                    }
+                }
+            }
+            groupId project.ext.my_group
+            artifactId project.ext.my_artifact
+            version project.ext.my_version
+            from components.java
+            artifact sourcesJar {
+                classifier 'sources'
+            }
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
+            repositories {
+                maven {
+                    url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+                    if(!isCiServer) {
+                      credentials {
+                          username sonatypeUsername
+                          password sonatypePassword
+                      }
+                    }
+                }
+            }
+        }
+    }
+}
