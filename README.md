@@ -1,5 +1,6 @@
 This library allows you to create netty handlers in a functional manne instead 
 of implementing a full fledged channel handler or extending an adapter.
+[![Build Status](https://travis-ci.org/hkoosha/netty-functional.svg?branch=master)](https://travis-ci.org/hkoosha/netty-functional)
 
 
 ### How to Build
