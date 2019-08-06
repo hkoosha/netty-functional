@@ -5,14 +5,14 @@ of implementing a full fledged channel handler or extending an adapter. [![Build
 
 ```xml
 <dependency>
-    <groupId>net.pargar.nettyfunctional</groupId>
+    <groupId>io.koosha.nettyfunctional</groupId>
     <artifactId>nettyfunctional</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
 
 ```groovy
-compile group: 'net.pargar.nettyfunctional', name: 'nettyfunctional', version: '1.0.0'
+compile group: 'io.koosha.nettyfunctional', name: 'nettyfunctional', version: '1.0.0'
 ```
 
 ### How to Build
